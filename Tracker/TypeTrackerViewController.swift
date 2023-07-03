@@ -1,6 +1,6 @@
 import UIKit
 
-class StatisticViewController: UIViewController {
+class TypeTrackerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

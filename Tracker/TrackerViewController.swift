@@ -1,35 +1,39 @@
 import UIKit
 
-class TrackerViewController: UIViewController, UITextFieldDelegate {
+class TrackerViewController: UIViewController {
+    
+    //    private var categories: [TrackerCategory] = []
+    //    private var completedTrackers: [TrackerRecord] = []
+    //    private var visibleCategory: [TrackerCategory] = []
     
     private let datePicker = UIDatePicker()
-    private let starImage = UIImageView(image: UIImage(named: "star"))
-    private let questionLabel = UILabel()
+    private let image = UIImageView(image: UIImage(named: "Star"))
+    private let textLabel = UILabel()
     private let searchTF = UISearchTextField()
     private let cancelButton = UIButton(type: .system)
+    private let filterButton = UIButton(type: .system)
     
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let params = UICollectionView.GeometricParams(cellCount: 2, leftInset: 16, rightInset: 16, topInset: 8, bottomInset: 16, height: 148, cellSpacing: 10)
+    private let collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout())
     
-    
-    //    private var posts: [Post] = []
-    //    private var filteredPosts: [Post] = []
+    private let params = UICollectionView.GeometricParams(cellCount: 2,
+                                                          leftInset: 16,
+                                                          rightInset: 16,
+                                                          topInset: 8,
+                                                          bottomInset: 16,
+                                                          height: 148,
+                                                          cellSpacing: 10)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavbar()
         configPicker()
-        view.addSubview(starImage)
-        view.addSubview(questionLabel)
-        view.addSubview(searchTF)
-        view.addSubview(datePicker)
-        view.addSubview(cancelButton)
-        view.addSubview(collectionView)
         makeConstraints()
-        questionLabel.text = "Что будем отслеживать?"
-        questionLabel.font = .systemFont(ofSize: 12, weight: .medium)
-        questionLabel.isHidden = true
-        starImage.isHidden = true
+        textLabel.text = "Что будем отслеживать?"
+        textLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        textLabel.isHidden = true
+        image.isHidden = true
         
         searchTF.placeholder = "Поиск"
         searchTF.textColor = .black
@@ -42,9 +46,18 @@ class TrackerViewController: UIViewController, UITextFieldDelegate {
         cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
+        filterButton.setTitle("Фильтры", for: .normal)
+        filterButton.backgroundColor = .ypBlue
+        filterButton.tintColor = .ypWhite
+        filterButton.layer.cornerRadius = 16
+        
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CardTrackerCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(
+            SupplementaryView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "Header")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -53,7 +66,10 @@ class TrackerViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func configureNavbar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTracker))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addTracker))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         navigationItem.title = "Трекеры"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -64,32 +80,43 @@ class TrackerViewController: UIViewController, UITextFieldDelegate {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.tintColor = .ypBlue
-        datePicker.addTarget(self, action: #selector(changeDate), for:.editingChanged)
+        datePicker.clipsToBounds = true
+        datePicker.layer.cornerRadius = 8
+        datePicker.locale = Locale(identifier: "ru_Ru")
+        datePicker.calendar.firstWeekday = 2
+        datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
     }
     
     private func makeConstraints() {
-        starImage.translatesAutoresizingMaskIntoConstraints = false
-        questionLabel.translatesAutoresizingMaskIntoConstraints = false
+        image.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         searchTF.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        filterButton.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        [image, textLabel, searchTF, cancelButton, filterButton, collectionView].forEach { view.addSubview($0) }
+        
         NSLayoutConstraint.activate([
-            starImage.widthAnchor.constraint(equalToConstant: 80),
-            starImage.heightAnchor.constraint(equalToConstant: 80),
-            starImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            starImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            questionLabel.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 8),
-            questionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            image.widthAnchor.constraint(equalToConstant: 80),
+            image.heightAnchor.constraint(equalToConstant: 80),
+            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            textLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 8),
+            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchTF.topAnchor.constraint(equalTo: view.topAnchor, constant: 143),
             searchTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             cancelButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             cancelButton.leadingAnchor.constraint(equalTo: searchTF.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: searchTF.topAnchor, constant: 34),
+            collectionView.topAnchor.constraint(equalTo: searchTF.topAnchor, constant: 64),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.widthAnchor.constraint(equalToConstant: 114),
+            filterButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -100,7 +127,9 @@ class TrackerViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeDate() {
-        
+        //        visibleCategory = categories.map {category in
+        //
+        //        }
     }
     
     @objc func cancelButtonTapped() {
@@ -110,17 +139,43 @@ class TrackerViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
+extension TrackerViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTF.resignFirstResponder()
+        
+    }
+    
+    
+}
+
 extension TrackerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        12
+        2
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CardTrackerCell else {return UICollectionViewCell()}
-        cell.emodjiLabel.text = "asd"
-        cell.nameTrackerLabel.text = "sadasd"
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "cell", for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
+        cell.emodjiLabel.text = "🍔"
+        cell.nameTrackerLabel.text = "Ходить в лес"
         return cell
+    }
+}
+
+extension TrackerViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: "Header",
+            for: indexPath) as? SupplementaryView else { return UICollectionReusableView() }
+        headerView.titleLabel.text = "Домашний уют"
+        headerView.titleLabel.font = .systemFont(ofSize: 19, weight: .bold)
+        return headerView
     }
 }
 
@@ -134,14 +189,20 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: cellWidth, height: 150)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets
     {
-        UIEdgeInsets(top: params.topInset, left: params.leftInset, bottom: params.bottomInset, right: params.rightInset)
+        UIEdgeInsets(top: params.topInset,
+                     left: params.leftInset,
+                     bottom: params.bottomInset,
+                     right: params.rightInset)
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         9
     }
     
@@ -149,5 +210,20 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat
     {
         0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView,
+                                             viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
+                                             at: indexPath)
+        
+        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
+                                                         height: UIView.layoutFittingExpandedSize.height),
+                                                  withHorizontalFittingPriority: .required,
+                                                  verticalFittingPriority: .fittingSizeLevel)
     }
 }

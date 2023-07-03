@@ -2,12 +2,12 @@ import UIKit
 
 final class TrackerCell: UICollectionViewCell {
     
-    let cardView = UIView()
-    let iconView = UIView()
-    let nameTrackerLabel = UILabel()
-    let emodjiLabel = UILabel()
-    let daysLabel = UILabel()
-    let plusButton = UIButton(type: .custom)
+     let cardView = UIView()
+     let iconView = UIView()
+     let nameTrackerLabel = UILabel()
+     let emodjiLabel = UILabel()
+     let daysLabel = UILabel()
+     let plusButton = UIButton(type: .custom)
     
     
     override init(frame: CGRect) {

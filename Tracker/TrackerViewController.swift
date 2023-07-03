@@ -65,6 +65,8 @@ class TrackerViewController: UIViewController {
         view.endEditing(true)
     }
     
+    
+    
     private func configureNavbar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -123,7 +125,9 @@ class TrackerViewController: UIViewController {
     
     
     @objc func addTracker() {
-        
+        let typeTrackerVC = TypeTrackerViewController()
+                let navigationController = UINavigationController(rootViewController: typeTrackerVC)
+                present(navigationController, animated: true)
     }
     
     @objc func changeDate() {

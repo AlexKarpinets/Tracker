@@ -15,6 +15,9 @@
 		FA5EBE112A4207DE00EA3318 /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5EBE102A4207DE00EA3318 /* TrackerViewController.swift */; };
 		FA5EBE162A4207DE00EA3318 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA5EBE152A4207DE00EA3318 /* Assets.xcassets */; };
 		FA5EBE192A4207DE00EA3318 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5EBE172A4207DE00EA3318 /* LaunchScreen.storyboard */; };
+		FA8975072A7ABFB9001F91D4 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8975062A7ABFB9001F91D4 /* CreateTrackerViewController.swift */; };
+		FA8975092A7ACFBF001F91D4 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8975082A7ACFBF001F91D4 /* ListCell.swift */; };
+		FA89750B2A7AD1E9001F91D4 /* ListOfItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */; };
 		FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EA2A4C8A86005186FE /* TrackerCell.swift */; };
 		FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */; };
 		FAE5ED802A52DD0A00C4ADE5 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5ED7F2A52DD0A00C4ADE5 /* SupplementaryView.swift */; };
@@ -32,6 +35,9 @@
 		FA5EBE152A4207DE00EA3318 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA5EBE182A4207DE00EA3318 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA5EBE1A2A4207DE00EA3318 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA8975062A7ABFB9001F91D4 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
+		FA8975082A7ACFBF001F91D4 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfItems.swift; sourceTree = "<group>"; };
 		FAC415EA2A4C8A86005186FE /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extension.swift"; sourceTree = "<group>"; };
 		FAE5ED7F2A52DD0A00C4ADE5 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
@@ -72,7 +78,10 @@
 				FA5EBE0E2A4207DE00EA3318 /* SceneDelegate.swift */,
 				FA5EBE102A4207DE00EA3318 /* TrackerViewController.swift */,
 				FAC415EA2A4C8A86005186FE /* TrackerCell.swift */,
+				FA8975082A7ACFBF001F91D4 /* ListCell.swift */,
+				FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */,
 				FAE5ED812A52F35C00C4ADE5 /* TypeTrackerViewController.swift */,
+				FA8975062A7ABFB9001F91D4 /* CreateTrackerViewController.swift */,
 				FA2334D92A481CCC0083C6A8 /* StatisticViewController.swift */,
 				FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */,
 				FAE5ED7F2A52DD0A00C4ADE5 /* SupplementaryView.swift */,
@@ -156,13 +165,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA5EBE112A4207DE00EA3318 /* TrackerViewController.swift in Sources */,
+				FA89750B2A7AD1E9001F91D4 /* ListOfItems.swift in Sources */,
 				FAE5ED822A52F35C00C4ADE5 /* TypeTrackerViewController.swift in Sources */,
 				FA2334D62A4819670083C6A8 /* UIExtension + Color.swift in Sources */,
 				FA2334D82A481B7C0083C6A8 /* MainTabBarViewController.swift in Sources */,
 				FAE5ED802A52DD0A00C4ADE5 /* SupplementaryView.swift in Sources */,
+				FA8975072A7ABFB9001F91D4 /* CreateTrackerViewController.swift in Sources */,
 				FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */,
 				FA2334DA2A481CCC0083C6A8 /* StatisticViewController.swift in Sources */,
 				FA5EBE0D2A4207DE00EA3318 /* AppDelegate.swift in Sources */,
+				FA8975092A7ACFBF001F91D4 /* ListCell.swift in Sources */,
 				FA5EBE0F2A4207DE00EA3318 /* SceneDelegate.swift in Sources */,
 				FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */,
 			);

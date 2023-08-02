@@ -43,5 +43,13 @@ final class TypeTrackerViewController: UIViewController {
         eventButton.backgroundColor = .ypBlack
         eventButton.tintColor = .ypWhite
         eventButton.layer.cornerRadius = 16
+        
+        habitChoiceButton.addTarget(self, action: #selector(addHabit), for: .touchUpInside)
+    }
+    
+    @objc func addHabit() {
+        let createTrackerVC = CreateTrackerViewController()
+        let navigationController = UINavigationController(rootViewController: createTrackerVC)
+                present(navigationController, animated: true)
     }
 }

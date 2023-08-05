@@ -31,13 +31,10 @@ final class ListCell: UITableViewCell {
         return button
     }()
     
-    // MARK: - Properties
     static let identifier = "ListCell"
     
-    // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         configureViews()
         configureConstraints()
     }
@@ -45,8 +42,7 @@ final class ListCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Methods
+
     func configure(label: String, value: String?, position: ListOfItems.Position) {
         listItem.configure(with: position)
         nameLabel.text = label
@@ -57,7 +53,6 @@ final class ListCell: UITableViewCell {
     }
 }
 
-// MARK: - Layout methods
 private extension ListCell {
     func configureViews() {
         selectionStyle = .none

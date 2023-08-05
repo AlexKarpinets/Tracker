@@ -1,7 +1,6 @@
 import UIKit
 
 final class ListOfItems: UIView {
-
     private let border: UIView = {
         let view = UIView()
         view.backgroundColor = .ypGrayTwo
@@ -18,8 +17,7 @@ final class ListOfItems: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
+    
     func configure(with position: Position = .middle) {
         layer.masksToBounds = true
         layer.cornerRadius = 10

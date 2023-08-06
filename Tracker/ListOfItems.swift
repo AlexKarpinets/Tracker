@@ -41,7 +41,7 @@ extension ListOfItems {
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 16
-        backgroundColor = .ypGrayTwo
+        backgroundColor = .ypGrayFO
 
         addSubview(border)
         border.translatesAutoresizingMaskIntoConstraints = false

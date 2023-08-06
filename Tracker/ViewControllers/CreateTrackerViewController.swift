@@ -32,10 +32,10 @@ final class CreateTrackerViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = makeButton()
         button.setTitle("Отменить", for: .normal)
-        button.setTitleColor(.red, for: .normal)
+        button.setTitleColor(.ypRed, for: .normal)
         button.backgroundColor = .white
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.red.cgColor
+        button.layer.borderColor = UIColor.ypRed.cgColor
         button.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         return button
     }()

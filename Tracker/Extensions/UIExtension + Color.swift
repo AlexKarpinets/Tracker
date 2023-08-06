@@ -7,6 +7,8 @@ extension UIColor {
     static var ypGrayTwo: UIColor { UIColor(named: "YP GrayTwo") ?? UIColor.gray }
     static var ypGrayThree: UIColor { UIColor(named: "YP GrayThree") ?? UIColor.gray }
     static var ypBlack: UIColor { UIColor(named: "YP Black") ?? UIColor.black }
+    static var ypRed: UIColor { UIColor(named: "YP Red") ?? UIColor.red }
+    static var ypGrayFO: UIColor { UIColor(named: "YP GrayFO") ?? UIColor.gray }
     
     static func bunchOfSChoices(_ number: Int) -> UIColor? { UIColor(named: "ColorSelection\(number)") }
     static let bunchOfSChoices = [

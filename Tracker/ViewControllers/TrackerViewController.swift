@@ -78,7 +78,7 @@ class TrackerViewController: UIViewController {
         configSearch()
         configFilterButton()
         makeConstraints()
-        mainSpacePlaceholderStack.configurePlaceholderStack(imageName: "Star", text: "Что будем отслеживать?")
+        mainSpacePlaceholderStack.configurePlaceholderStack(imageName: "star", text: "Что будем отслеживать?")
         searchSpacePlaceholderStack.configurePlaceholderStack(imageName: "EmptyTracker", text: "Ничего не найдено")
         checkMainPlaceholderVisability()
         checkPlaceholderVisabilityAfterSearch()
@@ -111,7 +111,6 @@ class TrackerViewController: UIViewController {
         datePicker.layer.cornerRadius = 8
         datePicker.locale = Locale(identifier: "ru_Ru")
         datePicker.calendar.firstWeekday = 2
-        datePicker.maximumDate = Date()
         datePicker.calendar = Calendar(identifier: .iso8601)
         datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
     }
@@ -184,7 +183,7 @@ class TrackerViewController: UIViewController {
     }
     
     @objc func changeDate(_ sender: UIDatePicker) {
-        currentDate = Date.from(date: sender.date)!
+        guard let currentDate = Date.from(date: sender.date) else { return }
         collectionView.reloadData()
     }
     

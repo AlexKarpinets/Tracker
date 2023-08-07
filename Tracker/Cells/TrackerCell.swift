@@ -4,6 +4,11 @@ protocol TrackerCellDelegate: AnyObject {
     func didTapCompleteButton(of cell: TrackerCell, with tracker: Tracker)
 }
 
+enum ImageName {
+    static let done = "checkmark"
+    static let add = "plus"
+}
+
 final class TrackerCell: UICollectionViewCell {
     private let cardView: UIView = {
         let view = UIView()
@@ -41,7 +46,7 @@ final class TrackerCell: UICollectionViewCell {
     
     private lazy var addDayButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: ImageName.add), for: .normal)
         button.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         button.layer.cornerRadius = 17
         button.addTarget(self, action: #selector(didTapAddDayButton), for: .touchUpInside)
@@ -72,7 +77,7 @@ final class TrackerCell: UICollectionViewCell {
         super.prepareForReuse()
         tracker = nil
         days = 0
-        addDayButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        addDayButton.setImage(UIImage(systemName: ImageName.add), for: .normal)
         addDayButton.layer.opacity = 1
     }
     
@@ -88,10 +93,10 @@ final class TrackerCell: UICollectionViewCell {
     
     func switchAddDayButton(to isCompleted: Bool) {
         if isCompleted {
-            addDayButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+            addDayButton.setImage(UIImage(systemName: ImageName.done), for: .normal)
             addDayButton.layer.opacity = 0.3
         } else {
-            addDayButton.setImage(UIImage(systemName: "plus"), for: .normal)
+            addDayButton.setImage(UIImage(systemName: ImageName.add), for: .normal)
             addDayButton.layer.opacity = 1
         }
     }

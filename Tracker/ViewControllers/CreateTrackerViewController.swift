@@ -9,6 +9,7 @@ final class CreateTrackerViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let textField = TextField(placeholder: "Введите название трекера")
+        textField.textColor = .ypGrayThree
         textField.addTarget(self, action: #selector(didChangedLabelTextField), for: .editingChanged)
         return textField
     }()
@@ -84,7 +85,7 @@ final class CreateTrackerViewController: UIViewController {
                 confirmButton.backgroundColor = .ypBlack
                 confirmButton.isEnabled = true
             } else {
-                confirmButton.backgroundColor = .ypGrayTwo
+                confirmButton.backgroundColor = .ypGrayThree
                 confirmButton.isEnabled = false
             }
         }

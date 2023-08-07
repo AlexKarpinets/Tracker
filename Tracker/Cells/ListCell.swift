@@ -12,7 +12,7 @@ final class ListCell: UITableViewCell {
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .ypGrayTwo
+        label.textColor = .ypGrayThree
         label.font = UIFont.systemFont(ofSize: 17)
         return label
     }()
@@ -27,7 +27,7 @@ final class ListCell: UITableViewCell {
     private let chooseButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Arrow"), for: .normal)
-        button.tintColor = .ypGrayTwo
+        button.tintColor = .ypGrayThree
         return button
     }()
     
@@ -42,7 +42,7 @@ final class ListCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func configure(label: String, value: String?, position: ListOfItems.Position) {
         listItem.configure(with: position)
         nameLabel.text = label
@@ -65,7 +65,7 @@ private extension ListCell {
         labelsStack.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
     }
     
     func configureConstraints() {

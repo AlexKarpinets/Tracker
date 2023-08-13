@@ -1,7 +1,6 @@
 import UIKit
 
 final class ColorCell: UICollectionViewCell {
-    // MARK: - Layout elements
     private let colorView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
@@ -9,11 +8,9 @@ final class ColorCell: UICollectionViewCell {
         return view
     }()
     
-    // MARK: - Properties
     static let identifier = "ColorCell"
     private var color: UIColor?
     
-    // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -25,14 +22,12 @@ final class ColorCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
     func configure(with color: UIColor) {
         colorView.backgroundColor = color
         self.color = color
     }
 }
 
-// MARK: - Layout methods
 private extension ColorCell {
     func configureViews() {
         contentView.addSubview(colorView)

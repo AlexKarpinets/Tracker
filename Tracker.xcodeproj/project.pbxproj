@@ -20,6 +20,8 @@
 		FA89750B2A7AD1E9001F91D4 /* ListOfItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */; };
 		FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EA2A4C8A86005186FE /* TrackerCell.swift */; };
 		FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */; };
+		FAD043282A88E88B00B23E15 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043272A88E88B00B23E15 /* EmojiCell.swift */; };
+		FAD0432A2A88E8B600B23E15 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043292A88E8B600B23E15 /* ColorCell.swift */; };
 		FAE5ED822A52F35C00C4ADE5 /* TypeTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5ED812A52F35C00C4ADE5 /* TypeTrackerViewController.swift */; };
 		FAF565DF2A7E82AC00B8EAAE /* MockData + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF565DE2A7E82AC00B8EAAE /* MockData + Extension.swift */; };
 		FAF565E12A7E833000B8EAAE /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF565E02A7E832F00B8EAAE /* TrackerCategory.swift */; };
@@ -52,6 +54,8 @@
 		FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfItems.swift; sourceTree = "<group>"; };
 		FAC415EA2A4C8A86005186FE /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extension.swift"; sourceTree = "<group>"; };
+		FAD043272A88E88B00B23E15 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
+		FAD043292A88E8B600B23E15 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		FAE5ED812A52F35C00C4ADE5 /* TypeTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTrackerViewController.swift; sourceTree = "<group>"; };
 		FAF565DE2A7E82AC00B8EAAE /* MockData + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockData + Extension.swift"; sourceTree = "<group>"; };
 		FAF565E02A7E832F00B8EAAE /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 			children = (
 				FAC415EA2A4C8A86005186FE /* TrackerCell.swift */,
 				FA8975082A7ACFBF001F91D4 /* ListCell.swift */,
+				FAD043272A88E88B00B23E15 /* EmojiCell.swift */,
+				FAD043292A88E8B600B23E15 /* ColorCell.swift */,
 				FAF565F42A7E931500B8EAAE /* WeekdayCell.swift */,
 			);
 			path = Cells;
@@ -252,10 +258,12 @@
 				FAF565E12A7E833000B8EAAE /* TrackerCategory.swift in Sources */,
 				FAF565E52A7E837400B8EAAE /* TrackerRecord.swift in Sources */,
 				FA2334DA2A481CCC0083C6A8 /* StatisticViewController.swift in Sources */,
+				FAD0432A2A88E8B600B23E15 /* ColorCell.swift in Sources */,
 				FA5EBE0D2A4207DE00EA3318 /* AppDelegate.swift in Sources */,
 				FA8975092A7ACFBF001F91D4 /* ListCell.swift in Sources */,
 				FA5EBE0F2A4207DE00EA3318 /* SceneDelegate.swift in Sources */,
 				FAF565F52A7E931500B8EAAE /* WeekdayCell.swift in Sources */,
+				FAD043282A88E88B00B23E15 /* EmojiCell.swift in Sources */,
 				FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

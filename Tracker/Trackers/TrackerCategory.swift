@@ -1,11 +1,11 @@
 import UIKit
 
 struct TrackerCategory {
+    let id: UUID
     let label: String
-    let trackers: [Tracker]
     
-    init(label: String, trackers: [Tracker]) {
+    init(id: UUID = UUID(), label: String) {
+        self.id = id
         self.label = label
-        self.trackers = trackers
     }
 }

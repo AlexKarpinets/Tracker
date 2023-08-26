@@ -1,5 +1,5 @@
-import UIKit
 import CoreData
+import UIKit
 
 protocol TrackerStoreDelegate: AnyObject {
     func didUpdate()
@@ -49,7 +49,7 @@ final class TrackerStore: NSObject {
     func makeTracker(from coreData: TrackerCD) throws -> Tracker {
         guard
             let idString = coreData.trackerId,
-            let id = UUID(uuidString: idString),
+            let _ = UUID(uuidString: idString),
             let label = coreData.label,
             let emoji = coreData.emoji,
             let colorHEX = coreData.colorHEX,

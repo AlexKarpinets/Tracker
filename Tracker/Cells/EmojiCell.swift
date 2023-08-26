@@ -1,5 +1,10 @@
 import UIKit
 
+protocol SelectionCellProtocol {
+    func select()
+    func deselect()
+}
+
 final class EmojiCell: UICollectionViewCell {
     private let emojiLabel: UILabel = {
         let label = UILabel()
@@ -52,7 +57,3 @@ extension EmojiCell: SelectionCellProtocol {
     }
 }
 
-protocol SelectionCellProtocol {
-    func select()
-    func deselect()
-}

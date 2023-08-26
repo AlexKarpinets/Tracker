@@ -20,6 +20,7 @@
 		FA89750B2A7AD1E9001F91D4 /* ListOfItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */; };
 		FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EA2A4C8A86005186FE /* TrackerCell.swift */; };
 		FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */; };
+		FACED67C2A9A015A00A3B47E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */; };
 		FAD043282A88E88B00B23E15 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043272A88E88B00B23E15 /* EmojiCell.swift */; };
 		FAD0432A2A88E8B600B23E15 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043292A88E8B600B23E15 /* ColorCell.swift */; };
 		FAD0432C2A88ECF800B23E15 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0432B2A88ECF800B23E15 /* TrackerCategoryStore.swift */; };
@@ -58,6 +59,7 @@
 		FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfItems.swift; sourceTree = "<group>"; };
 		FAC415EA2A4C8A86005186FE /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extension.swift"; sourceTree = "<group>"; };
+		FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		FAD043272A88E88B00B23E15 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		FAD043292A88E8B600B23E15 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		FAD0432B2A88ECF800B23E15 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				FAF565F62A7E938B00B8EAAE /* ScheduleViewController.swift */,
 				FA2334D92A481CCC0083C6A8 /* StatisticViewController.swift */,
 				FA2334D72A481B7C0083C6A8 /* MainTabBarViewController.swift */,
+				FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				FA5EBE0D2A4207DE00EA3318 /* AppDelegate.swift in Sources */,
 				FA8975092A7ACFBF001F91D4 /* ListCell.swift in Sources */,
 				FAD043352A88EDB000B23E15 /* Model.xcdatamodeld in Sources */,
+				FACED67C2A9A015A00A3B47E /* OnboardingViewController.swift in Sources */,
 				FA5EBE0F2A4207DE00EA3318 /* SceneDelegate.swift in Sources */,
 				FAF565F52A7E931500B8EAAE /* WeekdayCell.swift in Sources */,
 				FAD043282A88E88B00B23E15 /* EmojiCell.swift in Sources */,

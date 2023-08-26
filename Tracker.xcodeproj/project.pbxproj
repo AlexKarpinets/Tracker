@@ -21,6 +21,7 @@
 		FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EA2A4C8A86005186FE /* TrackerCell.swift */; };
 		FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */; };
 		FACED67C2A9A015A00A3B47E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */; };
+		FACED67E2A9A43A100A3B47E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACED67D2A9A43A100A3B47E /* OnboardingPageViewController.swift */; };
 		FAD043282A88E88B00B23E15 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043272A88E88B00B23E15 /* EmojiCell.swift */; };
 		FAD0432A2A88E8B600B23E15 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD043292A88E8B600B23E15 /* ColorCell.swift */; };
 		FAD0432C2A88ECF800B23E15 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0432B2A88ECF800B23E15 /* TrackerCategoryStore.swift */; };
@@ -60,6 +61,7 @@
 		FAC415EA2A4C8A86005186FE /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extension.swift"; sourceTree = "<group>"; };
 		FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		FACED67D2A9A43A100A3B47E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		FAD043272A88E88B00B23E15 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		FAD043292A88E8B600B23E15 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		FAD0432B2A88ECF800B23E15 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				FA2334D92A481CCC0083C6A8 /* StatisticViewController.swift */,
 				FA2334D72A481B7C0083C6A8 /* MainTabBarViewController.swift */,
 				FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */,
+				FACED67D2A9A43A100A3B47E /* OnboardingPageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				FAD043322A88ED6700B23E15 /* UIColorMarshalling.swift in Sources */,
 				FAD0432E2A88ED2000B23E15 /* TrackerRecordStore.swift in Sources */,
 				FAE5ED822A52F35C00C4ADE5 /* TypeTrackerViewController.swift in Sources */,
+				FACED67E2A9A43A100A3B47E /* OnboardingPageViewController.swift in Sources */,
 				FAF565E32A7E834F00B8EAAE /* Tracker.swift in Sources */,
 				FA2334D62A4819670083C6A8 /* UIExtension + Color.swift in Sources */,
 				FA2334D82A481B7C0083C6A8 /* MainTabBarViewController.swift in Sources */,

@@ -1,23 +1,15 @@
 import UIKit
 
 class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-   
     
     lazy var pages: [UIViewController] = {
-        var firstVC = UIViewController()
-        var imageView : UIImageView!
-        let background = UIImage(named: "StringOnboardingRBlue")
-
-           imageView = UIImageView(frame: view.bounds)
-           imageView.contentMode =  UIView.ContentMode.scaleAspectFill
-           imageView.clipsToBounds = true
-           imageView.image = background
-           imageView.center = view.center
-           view.addSubview(imageView)
+        let firstVC = OnboardingPageViewController()
+        firstVC.backgroundImage.image = UIImage(named: "OnboardingBlue")
+        firstVC.label.text = "Отслеживайте только то, что хотите"
         
-        var secondVC = UIViewController()
-        secondVC.view = UIImageView(image: UIImage(named: "StringOnboardingRRed"))
-        
+        let secondVC = OnboardingPageViewController()
+        secondVC.backgroundImage.image = UIImage(named: "OnboardingRed")
+        secondVC.label.text = "Даже если это не литры воды и йога"
         return [firstVC, secondVC]
     }()
     
@@ -25,63 +17,98 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
         let pageControl = UIPageControl()
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
-
         pageControl.currentPageIndicatorTintColor = .ypBlack
-        pageControl.pageIndicatorTintColor = .ypGray
-
+        pageControl.pageIndicatorTintColor = .ypGrayThree
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
     
+    private lazy var enterButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .ypBlack
+        button.setTitle("Вот это технологии!", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupConstraints()
         dataSource = self
         delegate = self
         
         if let first = pages.first {
             setViewControllers([first], direction: .forward, animated: true, completion: nil)
         }
+    }
+    
+    @objc
+    private func buttonTapped() {
+        let tabBar = MainTabBarViewController()
+        tabBar.modalPresentationStyle = .fullScreen
+        present(tabBar, animated: true)
+    }
+    
+    func animateText(for label: UILabel, newText: String) {
+        UIView.transition(with: label, duration: 0.3, animations: {
+            label.text = newText }, completion: nil)
+    }
+    
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerBefore viewController: UIViewController) -> UIViewController? {
+            guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
+                return nil
+            }
+            
+            let previousIndex = viewControllerIndex - 1
+            guard previousIndex >= 0 else {
+                return nil
+            }
+            
+            return pages[previousIndex]
+        }
+    
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController) -> UIViewController? {
+            guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
+                return nil
+            }
+            
+            let nextIndex = viewControllerIndex + 1
+            guard nextIndex < pages.count else {
+                return nil
+            }
+            
+            return pages[nextIndex]
+        }
+    
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool) {
+            
+            if let currentViewController = pageViewController.viewControllers?.first,
+               let currentIndex = pages.firstIndex(of: currentViewController) {
+                pageControl.currentPage = currentIndex
+            }
+        }
+    
+    func setupConstraints() {
+        [pageControl, enterButton].forEach { view.addSubview($0) }
         
-        view.addSubview(pageControl)
         NSLayoutConstraint.activate([
-        
-            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            pageControl.bottomAnchor.constraint(equalTo: enterButton.topAnchor, constant: -24),
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            enterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            enterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            enterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            enterButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
-
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
-            return nil
-        }
-        let previousIndex = viewControllerIndex - 1
-        
-        guard previousIndex >= 0 else {
-            return nil
-        }
-        
-        return pages[previousIndex]
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
-            return nil
-        }
-        
-        let nextIndex = viewControllerIndex + 1
-        
-        guard nextIndex < pages.count else {
-            return nil
-        }
-        
-        return pages[nextIndex]
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-           
-           if let currentViewController = pageViewController.viewControllers?.first,
-              let currentIndex = pages.firstIndex(of: currentViewController) {
-               pageControl.currentPage = currentIndex
-           }
-       }
 }

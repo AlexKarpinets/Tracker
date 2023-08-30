@@ -4,7 +4,7 @@ final class MainTabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        UserDefaults.standard.set(true, forKey: "visited")
         view.backgroundColor = .ypWhite
         
         let trackerVC = UINavigationController(rootViewController: TrackerViewController())

@@ -16,7 +16,19 @@ final class CategoriesViewController: UIViewController {
         return table
     }()
     
-    private let starImage = UIStackView()
+    private let starImage = UIImageView(image: UIImage(named: "star"))
+    
+    private lazy var texLabel: UILabel = {
+       let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.text = """
+        Привычки и события можно
+        объединить по смыслу
+        """
+        return label
+    }()
     
     private lazy var addButton: UIButton = {
         let button = UIButton()
@@ -46,10 +58,6 @@ final class CategoriesViewController: UIViewController {
         setupConstraints()
         viewModel.delegate = self
         viewModel.loadCategories()
-        starImage.configurePlaceholderStack(imageName: "star", text: """
-        Привычки и события можно
-        объединить по смыслу
-        """)
     }
     
     @objc
@@ -89,13 +97,14 @@ private extension CategoriesViewController {
     func configureViews() {
         title = "Категория"
         view.backgroundColor = .ypWhite
-        [categoriesView, addButton, starImage].forEach { view.addSubview($0) }
+        [categoriesView, addButton, texLabel, starImage].forEach { view.addSubview($0) }
         
         categoriesView.dataSource = self
         categoriesView.delegate = self
         
         categoriesView.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
+        texLabel.translatesAutoresizingMaskIntoConstraints = false
         starImage.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -109,9 +118,13 @@ private extension CategoriesViewController {
             addButton.trailingAnchor.constraint(equalTo: categoriesView.trailingAnchor),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             addButton.heightAnchor.constraint(equalToConstant: 60),
-            starImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            starImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            starImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            texLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            texLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            texLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            texLabel.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 8),
+            starImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            starImage.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -386),
+            starImage.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
 }
@@ -157,8 +170,10 @@ extension CategoriesViewController: CategoriesViewModelDelegate {
     func didUpdateCategories() {
         if viewModel.categories.isEmpty {
             starImage.isHidden = false
+            texLabel.isHidden = false
         } else {
             starImage.isHidden = true
+            texLabel.isHidden = true
         }
         categoriesView.reloadData()
     }

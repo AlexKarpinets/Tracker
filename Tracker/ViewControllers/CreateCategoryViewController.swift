@@ -48,6 +48,11 @@ final class CreateCategoryViewController: UIViewController {
         configureConstraints()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super .touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
     @objc
     private func didChangedTextField(_ sender: UITextField) {
         if let text = sender.text, !text.isEmpty {
@@ -61,6 +66,12 @@ final class CreateCategoryViewController: UIViewController {
     @objc
     private func didTapButton() {
         delegate?.didConfirm(data)
+    }
+}
+
+extension CategoriesViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 }
 

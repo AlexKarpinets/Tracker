@@ -92,6 +92,7 @@ class TrackerViewController: UIViewController {
         datePicker.maximumDate = Date()
         datePicker.calendar = Calendar(identifier: .iso8601)
         datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
+        currentDate = Calendar.current.startOfDay(for: datePicker.date)
     }
     
     private func configSearch() {

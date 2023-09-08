@@ -21,7 +21,7 @@ final class CategoriesViewController: UIViewController {
     private lazy var texLabel: UILabel = {
        let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textAlignment = .center
         label.text = """
         Привычки и события можно
@@ -59,7 +59,7 @@ final class CategoriesViewController: UIViewController {
         viewModel.delegate = self
         viewModel.loadCategories()
     }
-    
+        
     @objc
     private func didTapAddButton() {
         let addCategoryViewController = CreateCategoryViewController()
@@ -119,7 +119,6 @@ private extension CategoriesViewController {
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             addButton.heightAnchor.constraint(equalToConstant: 60),
             texLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            texLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             texLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             texLabel.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 8),
             starImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),

@@ -242,8 +242,8 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     func didConfirm(_ category: TrackerCategory) {
         self.category = category
-        parametersTableView.reloadData()
         dismiss(animated: true)
+        parametersTableView.reloadData()
     }
 }
 
@@ -362,7 +362,7 @@ extension CreateTrackerViewController: UITableViewDelegate {
             let сategoriesViewController = CategoriesViewController(selectedCategory: category)
             сategoriesViewController.delegate = self
             let navigationController = UINavigationController(rootViewController: сategoriesViewController)
-            navigationController.isModalInPresentation = true
+            navigationController.isModalInPresentation = false
             present(navigationController, animated: true)
         case 1:
             guard let schedule = data.schedule else { return }

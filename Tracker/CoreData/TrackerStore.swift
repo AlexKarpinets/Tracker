@@ -1,5 +1,5 @@
-import UIKit
 import CoreData
+import UIKit
 
 protocol TrackerStoreDelegate: AnyObject {
     func didUpdate()
@@ -15,10 +15,12 @@ protocol TrackerStoreProtocol {
 }
 
 final class TrackerStore: NSObject {
+    
     weak var delegate: TrackerStoreDelegate?
     
     private let context: NSManagedObjectContext
     private let trackerCategoryStore = TrackerCategoryStore()
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCD> = {
         let fetchRequest = NSFetchRequest<TrackerCD>(entityName: "TrackerCD")
         fetchRequest.sortDescriptors = [
@@ -55,15 +57,17 @@ final class TrackerStore: NSObject {
             let colorHEX = coreData.colorHEX,
             let completedDaysCount = coreData.records
         else { throw StoreError.decodeError }
-        let color = UIColorMarshalling.deserialize(hexString: colorHEX) ?? UIColor()
+        let color = UIColorMarshalling.deserialize(hexString: colorHEX)
         let scheduleString = coreData.schedule
         let schedule = WeekDay.decode(from: scheduleString)
         return Tracker(
+            id: id,
             label: label,
             emoji: emoji,
-            color: color,
+            color: color!,
             completedDaysCount: completedDaysCount.count,
-            schedule: schedule)
+            schedule: schedule
+        )
     }
     
     func getTrackerCD(by id: UUID) throws -> TrackerCD? {
@@ -111,6 +115,7 @@ final class TrackerStore: NSObject {
         delegate?.didUpdate()
     }
 }
+
 
 extension TrackerStore {
     enum StoreError: Error {

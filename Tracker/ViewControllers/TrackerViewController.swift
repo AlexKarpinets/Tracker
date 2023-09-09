@@ -89,9 +89,10 @@ class TrackerViewController: UIViewController {
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 8
         datePicker.locale = Locale(identifier: "ru_Ru")
-        datePicker.calendar.firstWeekday = 2
+        datePicker.maximumDate = Date()
         datePicker.calendar = Calendar(identifier: .iso8601)
         datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
+        currentDate = Calendar.current.startOfDay(for: datePicker.date)
     }
     
     private func configSearch() {
@@ -170,7 +171,7 @@ class TrackerViewController: UIViewController {
     }
     
     @objc func changeDate(_ sender: UIDatePicker) {
-        guard let currentDate = Date.from(date: sender.date) else {return}
+       currentDate = Date.from(date: sender.date) ?? Date()
         do {
             try trackerStore.loadFilteredTrackers(date: currentDate, searchString: searchText)
             try trackerRecordStore.loadCompletedTrackers(by: currentDate)

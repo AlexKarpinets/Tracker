@@ -5,7 +5,7 @@ protocol CreateTrackerViewControllerDelegate: AnyObject {
     func didTapConfirmButton(categoryLabel: TrackerCategory, trackerToAdd: Tracker)
 }
 
-final class CreateTrackerViewController: UIViewController {
+final class CreateTrackerViewController: UIViewController, CategoriesViewControllerDelegate {
     
     private lazy var textField: UITextField = {
         let textField = TextField(placeholder: "Введите название трекера")
@@ -104,7 +104,7 @@ final class CreateTrackerViewController: UIViewController {
         }
     }
     
-    private lazy var category: TrackerCategory? = trackerCategoryStore.categories.randomElement() {
+    private lazy var category: TrackerCategory? = nil {
         didSet {
             checkFromValidation()
         }
@@ -239,6 +239,12 @@ final class CreateTrackerViewController: UIViewController {
         button.layer.masksToBounds = true
         return button
     }
+    
+    func didConfirm(_ category: TrackerCategory) {
+        self.category = category
+        dismiss(animated: true)
+        parametersTableView.reloadData()
+    }
 }
 
 private extension CreateTrackerViewController {
@@ -352,12 +358,18 @@ extension CreateTrackerViewController: UITableViewDataSource {
 extension CreateTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
+        case 0:
+            let сategoriesViewController = CategoriesViewController(selectedCategory: category)
+            сategoriesViewController.delegate = self
+            let navigationController = UINavigationController(rootViewController: сategoriesViewController)
+            navigationController.isModalInPresentation = false
+            present(navigationController, animated: true)
         case 1:
             guard let schedule = data.schedule else { return }
             let scheduleViewController = ScheduleViewController(selectedWeekdays: schedule)
             scheduleViewController.delegate = self
             let navigationController = UINavigationController(rootViewController: scheduleViewController)
-            present(navigationController, animated: true)
+            present(navigationController,    animated: true)
         default:
             return
         }

@@ -51,8 +51,8 @@ class TrackerViewController: UIViewController {
         configSearch()
         configFilterButton()
         makeConstraints()
-        mainSpacePlaceholderStack.configurePlaceholderStack(imageName: "star", text: "Что будем отслеживать?")
-        searchSpacePlaceholderStack.configurePlaceholderStack(imageName: "EmptyTracker", text: "Ничего не найдено")
+        mainSpacePlaceholderStack.configurePlaceholderStack(imageName: "star", text: NSLocalizedString("TrackerViewController.whatWeWillTrace", comment: ""))
+        searchSpacePlaceholderStack.configurePlaceholderStack(imageName: "EmptyTracker", text: NSLocalizedString("TrackerViewController.nothingFound", comment: ""))
         checkMainPlaceholderVisability()
         checkPlaceholderVisabilityAfterSearch()
         
@@ -77,7 +77,7 @@ class TrackerViewController: UIViewController {
             target: self,
             action: #selector(addTracker))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-        navigationItem.title = "Трекеры"
+        navigationItem.title = NSLocalizedString("TrackerViewController.title", comment: "trackers")
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = .black
     }
@@ -88,7 +88,7 @@ class TrackerViewController: UIViewController {
         datePicker.tintColor = .ypBlue
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 8
-        datePicker.locale = Locale(identifier: "ru_Ru")
+        datePicker.locale = Locale(identifier: NSLocalizedString("TrackerViewController.datePicker", comment: "date"))
         datePicker.maximumDate = Date()
         datePicker.calendar = Calendar(identifier: .iso8601)
         datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
@@ -96,13 +96,13 @@ class TrackerViewController: UIViewController {
     }
     
     private func configSearch() {
-        search.placeholder = "Поиск"
+        search.placeholder = NSLocalizedString("TrackerViewController.search", comment: "")
         search.searchBarStyle = .minimal
         search.delegate = self
     }
     
     private func configFilterButton() {
-        filterButton.setTitle("Фильтры", for: .normal)
+        filterButton.setTitle(NSLocalizedString("TrackerViewController.filters", comment: ""), for: .normal)
         filterButton.backgroundColor = .ypBlue
         filterButton.tintColor = .ypWhite
         filterButton.layer.cornerRadius = 16

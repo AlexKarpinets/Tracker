@@ -8,7 +8,7 @@ protocol CreateTrackerViewControllerDelegate: AnyObject {
 final class CreateTrackerViewController: UIViewController, CategoriesViewControllerDelegate {
     
     private lazy var textField: UITextField = {
-        let textField = TextField(placeholder: "Введите название трекера")
+        let textField = TextField(placeholder: NSLocalizedString("CreateTrackerViewController.textField", comment: "Enter tracker name"))
         textField.textColor = .ypGrayThree
         textField.addTarget(self, action: #selector(didChangedLabelTextField), for: .editingChanged)
         textField.textColor = .ypBlack
@@ -19,7 +19,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textColor = .red
-        label.text = "Ограничение 38 символов"
+        label.text = NSLocalizedString("CreateTrackerViewController.validationMessage", comment: "38 character limit")
         return label
     }()
     
@@ -33,7 +33,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     private lazy var cancelButton: UIButton = {
         let button = makeButton()
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(NSLocalizedString("CreateTrackerViewController.cancel", comment: "Cancel"), for: .normal)
         button.setTitleColor(.ypRed, for: .normal)
         button.backgroundColor = .white
         button.layer.borderWidth = 1
@@ -44,7 +44,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     private lazy var confirmButton: UIButton = {
         let button = makeButton()
-        button.setTitle("Создать", for: .normal)
+        button.setTitle(NSLocalizedString("CreateTrackerViewController.confirmButton", comment: "Create"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.backgroundColor = .ypGrayThree
         button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
@@ -96,7 +96,8 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     }()
     
     weak var delegate: CreateTrackerViewControllerDelegate?
-    private let type: TypeTrackerViewController.TrackerType
+    private let setAction: ActionType
+    private let trackerType: TypeTrackerViewController.TrackerType
     private let trackerCategoryStore = TrackerCategoryStore()
     private var data: Tracker.Data {
         didSet {
@@ -112,7 +113,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     private var scheduleString: String? {
         guard let schedule = data.schedule else { return nil }
-        if schedule.count == WeekDay.allCases.count { return "Каждый день" }
+        if schedule.count == WeekDay.allCases.count { return NSLocalizedString("CreateTrackerViewController.scheduleString", comment: "Every day") }
         let shortForms: [String] = schedule.map { $0.shortForm }
         return shortForms.joined(separator: ", ")
     }
@@ -144,7 +145,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     private var validationMessageHeightConstraint: NSLayoutConstraint?
     private var parametersTableViewTopConstraint: NSLayoutConstraint?
-    private let parameters = ["Категория", "Расписание"]
+    private let parameters = [NSLocalizedString("CreateTrackerViewController.parameter1", comment: "Category"), NSLocalizedString("CreateTrackerViewController.parameter2", comment: "Schedule")]
     private let emojis = emojisArray
     private let colors = UIColor.bunchOfSChoices
     private let params = UICollectionView.GeometricParams(
@@ -156,21 +157,20 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         height: 52,
         cellSpacing: 5)
     
-    init(type: TypeTrackerViewController.TrackerType, data: Tracker.Data = Tracker.Data()) {
-        self.type = type
-        self.data = data
-        switch type {
-        case .habit:
-            self.data.schedule = []
-        case .irregularEvent:
-            self.data.schedule = nil
-        }
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+     init(
+        ActionType: CreateTrackerViewController.ActionType,
+        trackerType: TypeTrackerViewController.TrackerType,
+        data: Tracker.Data?
+     ) {
+         self.setAction = ActionType
+         self.trackerType = trackerType
+         self.data = data ?? Tracker.Data()
+         super.init(nibName: nil, bundle: nil)
+     }
+
+     required init?(coder: NSCoder) {
+         fatalError("init(coder:) has not been implemented")
+     }
     
     private var collectionViewHeightConstraint: NSLayoutConstraint!
     
@@ -249,9 +249,14 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
 
 private extension CreateTrackerViewController {
     func configureViews() {
-        switch type {
-        case .habit: title = "Новая привычка"
-        case .irregularEvent: title = "Новое нерегулярное событие"
+        switch setAction {
+        case .add:
+            switch trackerType {
+            case .habit: title = NSLocalizedString("CreateTrackerViewController.didTapHabitButton", comment: "New habit")
+            case .irregularEvent: title = NSLocalizedString("CreateTrackerViewController.didTapIrregularEventButton", comment: "New irregular event")
+            }
+        case .edit: title =
+            NSLocalizedString("CreateTrackerViewController.editHabit", comment: "Edit habit")
         }
         
         parametersTableView.dataSource = self
@@ -493,8 +498,8 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
             
             var label: String
             switch collectionView {
-            case emojisCollection: label = "Emoji"
-            case colorsCollection: label = "Цвет"
+            case emojisCollection: label = NSLocalizedString("CreateTrackerViewController.emoji", comment: "Emoji")
+            case colorsCollection: label = NSLocalizedString("CreateTrackerViewController.color", comment: "Color")
             default: label = ""
             }
             view.configure(with: label)
@@ -561,5 +566,11 @@ extension CreateTrackerViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension CreateTrackerViewController {
+    enum ActionType {
+        case add, edit
     }
 }

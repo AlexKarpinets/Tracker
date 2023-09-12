@@ -5,6 +5,8 @@ struct Tracker: Identifiable {
     let label: String
     let emoji: String
     let color: UIColor
+    let category: TrackerCategory
+    let isPinned: Bool
     let completedDaysCount: Int
     let schedule: [WeekDay]?
     

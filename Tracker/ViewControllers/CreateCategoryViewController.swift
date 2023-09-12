@@ -6,7 +6,7 @@ protocol CreateCategoryViewControllerDelegate: AnyObject {
 
 final class CreateCategoryViewController: UIViewController {
     private lazy var textField: UITextField = {
-        let textField = TextField(placeholder: "Введите название категории")
+        let textField = TextField(placeholder: NSLocalizedString("CreateCategoryViewController.textField", comment: "Enter"))
         textField.addTarget(self, action: #selector(didChangedTextField), for: .editingChanged)
         return textField
     }()
@@ -15,7 +15,7 @@ final class CreateCategoryViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypGray
         button.setTitleColor(.ypWhite, for: .normal)
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("TrackerFormViewController.ready", comment: "Ready"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
@@ -77,7 +77,7 @@ extension CategoriesViewController: UITextFieldDelegate {
 
 private extension CreateCategoryViewController {
     func configureView() {
-        title = "Новая категория"
+        title = NSLocalizedString("CreateCategoryViewController.configureView", comment: "New")
         view.backgroundColor = .ypWhite
         [textField, confirmButton].forEach { view.addSubview($0) }
         

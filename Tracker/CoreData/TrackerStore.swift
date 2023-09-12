@@ -124,6 +124,37 @@ extension TrackerStore {
 }
 
 extension TrackerStore: TrackerStoreProtocol {
+    private var pinnedTrackers: [Tracker] {
+        guard let fetchedObjects = fetchedResultsController.fetchedObjects else { return [] }
+        let trackers = fetchedObjects.compactMap { try? makeTracker(from: $0) }
+        return trackers.filter({ $0.isPinned })
+    }
+    
+    private var sections: [[Tracker]] {
+        guard let sectionsCoreData = fetchedResultsController.sections else { return [] }
+        var sections: [[Tracker]] = []
+        
+        if !pinnedTrackers.isEmpty {
+            sections.append(pinnedTrackers)
+        }
+        
+        sectionsCoreData.forEach { section in
+            var sectionToAdd = [Tracker]()
+            section.objects?.forEach({ object in
+                guard
+                    let trackerCD = object as? TrackerCD,
+                    let tracker = try? makeTracker(from: trackerCD),
+                    !pinnedTrackers.contains(where: { $0.id == tracker.id })
+                else { return }
+                sectionToAdd.append(tracker)
+            })
+            if !sectionToAdd.isEmpty {
+                sections.append(sectionToAdd)
+            }
+        }
+        return sections
+    }
+    
     var numberOfTrackers: Int {
         fetchedResultsController.fetchedObjects?.count ?? 0
     }
@@ -137,8 +168,11 @@ extension TrackerStore: TrackerStoreProtocol {
     }
     
     func headerLabelInSection(_ section: Int) -> String? {
-        guard let trackerCD = fetchedResultsController.sections?[section].objects?.first as? TrackerCD else { return nil }
-        return trackerCD.category?.label ?? nil
+        if !pinnedTrackers.isEmpty && section == 0 {
+            return NSLocalizedString("TrackerStore.pin", comment: "Pinned")
+        }
+        guard let category = sections[section].first?.category else { return nil }
+        return category.label
     }
     
     func tracker(at indexPath: IndexPath) -> Tracker? {

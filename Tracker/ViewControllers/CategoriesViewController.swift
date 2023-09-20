@@ -19,11 +19,11 @@ final class CategoriesViewController: UIViewController {
     private let starImage = UIImageView(image: UIImage(named: "star"))
     
     private lazy var texLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textAlignment = .center
-        label.text = NSLocalizedString("CategoriesViewController.starCombined", comment: "Combined"))
+        label.text = NSLocalizedString("CategoriesViewController.starCombined", comment: "Combined")
         return label
     }()
     
@@ -56,7 +56,7 @@ final class CategoriesViewController: UIViewController {
         viewModel.delegate = self
         viewModel.loadCategories()
     }
-        
+    
     @objc
     private func didTapAddButton() {
         let addCategoryViewController = CreateCategoryViewController()

@@ -5,7 +5,7 @@ final class TrackerCategoryNames: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        label.textColor = .ypBlack
+        label.textColor = .ypBlackDay
         return label
     }()
 

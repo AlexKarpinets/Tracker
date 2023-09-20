@@ -15,7 +15,7 @@ final class CreateCategoryViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypGray
         button.setTitleColor(.ypWhite, for: .normal)
-        button.setTitle(NSLocalizedString("TrackerFormViewController.ready", comment: "Ready"), for: .normal)
+        button.setTitle(NSLocalizedString("CreateCategoryViewController.button", comment: "Ready"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)

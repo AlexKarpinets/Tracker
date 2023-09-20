@@ -40,14 +40,14 @@ final class TrackerCell: UICollectionViewCell {
     private let daysCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = .ypBlackDay
         return label
     }()
     
     private lazy var addDayButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: ImageName.add), for: .normal)
-        button.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        button.tintColor = .ypWhiteDay
         button.layer.cornerRadius = 17
         button.addTarget(self, action: #selector(didTapAddDayButton), for: .touchUpInside)
         return button
@@ -81,10 +81,11 @@ final class TrackerCell: UICollectionViewCell {
         addDayButton.layer.opacity = 1
     }
     
-    func configure(with tracker: Tracker, days: Int, isCompleted: Bool) {
+    func configure(with tracker: Tracker, days: Int, isCompleted: Bool, interaction: UIInteraction) {
         self.tracker = tracker
         self.days = days
         cardView.backgroundColor = tracker.color
+        cardView.addInteraction(interaction)
         emoji.text = tracker.emoji
         trackerLabel.text = tracker.label
         addDayButton.backgroundColor = tracker.color

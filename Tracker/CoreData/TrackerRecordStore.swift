@@ -6,11 +6,13 @@ protocol TrackerRecordStoreDelegate: AnyObject {
 }
 
 final class TrackerRecordStore: NSObject {
+    
     weak var delegate: TrackerRecordStoreDelegate?
     
     private let context: NSManagedObjectContext
     private let trackerStore = TrackerStore()
     private var completedTrackers: Set<TrackerRecord> = []
+    
     
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -21,6 +23,7 @@ final class TrackerRecordStore: NSObject {
         self.context = context
         super.init()
     }
+    
     
     func add(_ newRecord: TrackerRecord) throws {
         let trackerCD = try trackerStore.getTrackerCD(by: newRecord.trackerId)
@@ -57,6 +60,13 @@ final class TrackerRecordStore: NSObject {
         delegate?.didUpdateRecords(completedTrackers)
     }
     
+    func loadCompletedTrackers() throws -> [TrackerRecord] {
+        let request = NSFetchRequest<TrackerRecordCD>(entityName: "TrackerRecordCD")
+        let recordsCoreData = try context.fetch(request)
+        let records = try recordsCoreData.map { try makeTrackerRecord(from: $0) }
+        return records
+    }
+    
     private func makeTrackerRecord(from coreData: TrackerRecordCD) throws -> TrackerRecord {
         guard
             let idString = coreData.recordId,
@@ -74,3 +84,4 @@ extension TrackerRecordStore {
         case decodeError
     }
 }
+

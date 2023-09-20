@@ -4,7 +4,8 @@ final class CategoryCell: UITableViewCell {
     private lazy var listOfItem = ListOfItems()
     private let label: UILabel = {
         let label = UILabel()
-        label.textColor = .ypBlack
+        label.textColor = .ypBlackDay
+        label.tintColor = .ypBlue
         label.font = UIFont.systemFont(ofSize: 17)
         return label
     }()

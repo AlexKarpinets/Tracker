@@ -2,14 +2,14 @@ import UIKit
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
     func didTapCancelButton()
-    func didTapConfirmButton(categoryLabel: TrackerCategory, trackerToAdd: Tracker)
+    func didAddTracker(category: TrackerCategory, trackerToAdd: Tracker)
+    func didUpdateTracker(with data: Tracker.Data)
 }
 
-final class CreateTrackerViewController: UIViewController, CategoriesViewControllerDelegate {
+final class CreateTrackerViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let textField = TextField(placeholder: NSLocalizedString("CreateTrackerViewController.textField", comment: "Enter tracker name"))
-        textField.textColor = .ypGrayThree
         textField.addTarget(self, action: #selector(didChangedLabelTextField), for: .editingChanged)
         textField.textColor = .ypBlack
         return textField
@@ -105,12 +105,6 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         }
     }
     
-    private lazy var category: TrackerCategory? = nil {
-        didSet {
-            checkFromValidation()
-        }
-    }
-    
     private var scheduleString: String? {
         guard let schedule = data.schedule else { return nil }
         if schedule.count == WeekDay.allCases.count { return NSLocalizedString("CreateTrackerViewController.scheduleString", comment: "Every day") }
@@ -145,7 +139,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     private var validationMessageHeightConstraint: NSLayoutConstraint?
     private var parametersTableViewTopConstraint: NSLayoutConstraint?
-    private let parameters = [NSLocalizedString("CreateTrackerViewController.parameter1", comment: "Category"), NSLocalizedString("CreateTrackerViewController.parameter2", comment: "Schedule")]
+    private let parameters = [NSLocalizedString("TypeTrackerViewController.parameter1", comment: "Category"), NSLocalizedString("TypeTrackerViewController.parameter2", comment: "Schedule")]
     private let emojis = emojisArray
     private let colors = UIColor.bunchOfSChoices
     private let params = UICollectionView.GeometricParams(
@@ -157,25 +151,26 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         height: 52,
         cellSpacing: 5)
     
-     init(
+    init(
         ActionType: CreateTrackerViewController.ActionType,
         trackerType: TypeTrackerViewController.TrackerType,
         data: Tracker.Data?
-     ) {
-         self.setAction = ActionType
-         self.trackerType = trackerType
-         self.data = data ?? Tracker.Data()
-         super.init(nibName: nil, bundle: nil)
-     }
-
-     required init?(coder: NSCoder) {
-         fatalError("init(coder:) has not been implemented")
-     }
+    ) {
+        self.setAction = ActionType
+        self.trackerType = trackerType
+        self.data = data ?? Tracker.Data()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var collectionViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setFormFields()
         configureViews()
         configureConstraints()
         checkFromValidation()
@@ -192,6 +187,39 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         }
     }
     
+    private func setFormFields() {
+        textField.text = data.label
+        switch trackerType {
+        case .habit:
+            self.data.schedule = data.schedule ?? []
+        case .irregularEvent:
+            self.data.schedule = nil
+        }
+    }
+    
+    private func addTracker() {
+        guard
+            let emoji = data.emoji,
+            let color = data.color,
+            let category = data.category
+        else { return }
+        
+        let newTracker = Tracker(
+            label: data.label,
+            emoji: emoji,
+            color: color,
+            category: category,
+            isPinned: false,
+            completedDaysCount: 0,
+            schedule: data.schedule
+        )
+        delegate?.didAddTracker(category: category, trackerToAdd: newTracker)
+    }
+    
+    private func editTracker() {
+        delegate?.didUpdateTracker(with: data)
+    }
+    
     @objc
     private func didTapCancelButton() {
         delegate?.didTapCancelButton()
@@ -199,16 +227,10 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
     
     @objc
     private func didTapConfirmButton() {
-        guard let category, let emoji = data.emoji, let color = data.color else { return }
-        
-        let newTracker = Tracker(
-            label: data.label,
-            emoji: emoji,
-            color: color,
-            completedDaysCount: 0,
-            schedule: data.schedule
-        )
-        delegate?.didTapConfirmButton(categoryLabel: category, trackerToAdd: newTracker)
+        switch setAction {
+        case .add: addTracker()
+        case .edit: editTracker()
+        }
     }
     
     private func checkFromValidation() {
@@ -220,7 +242,7 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
             isConfirmButtonEnabled = false
             return
         }
-        if category == nil || data.emoji == nil || data.color == nil {
+        if data.category == nil || data.emoji == nil || data.color == nil {
             isConfirmButtonEnabled = false
             return
         }
@@ -239,12 +261,6 @@ final class CreateTrackerViewController: UIViewController, CategoriesViewControl
         button.layer.masksToBounds = true
         return button
     }
-    
-    func didConfirm(_ category: TrackerCategory) {
-        self.category = category
-        dismiss(animated: true)
-        parametersTableView.reloadData()
-    }
 }
 
 private extension CreateTrackerViewController {
@@ -252,11 +268,11 @@ private extension CreateTrackerViewController {
         switch setAction {
         case .add:
             switch trackerType {
-            case .habit: title = NSLocalizedString("CreateTrackerViewController.didTapHabitButton", comment: "New habit")
-            case .irregularEvent: title = NSLocalizedString("CreateTrackerViewController.didTapIrregularEventButton", comment: "New irregular event")
+            case .habit: title = NSLocalizedString("TypeTrackerViewController.didTapHabitButton", comment: "New habit")
+            case .irregularEvent: title = NSLocalizedString("TypeTrackerViewController.didTapIrregularEventButton", comment: "New irregular event")
             }
         case .edit: title =
-            NSLocalizedString("CreateTrackerViewController.editHabit", comment: "Edit habit")
+            NSLocalizedString("TypeTrackerViewController.editHabit", comment: "Edit habit")
         }
         
         parametersTableView.dataSource = self
@@ -349,10 +365,10 @@ extension CreateTrackerViewController: UITableViewDataSource {
         
         if data.schedule == nil {
             position = .alone
-            value = category?.label
+            value = data.category?.label
         } else {
             position = indexPath.row == 0 ? .first : .last
-            value = indexPath.row == 0 ? category?.label : scheduleString
+            value = indexPath.row == 0 ? data.category?.label : scheduleString
         }
         
         listCell.configure(label: parameters[indexPath.row], value: value, position: position)
@@ -364,7 +380,7 @@ extension CreateTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let сategoriesViewController = CategoriesViewController(selectedCategory: category)
+            let сategoriesViewController = CategoriesViewController(selectedCategory: data.category)
             сategoriesViewController.delegate = self
             let navigationController = UINavigationController(rootViewController: сategoriesViewController)
             navigationController.isModalInPresentation = false
@@ -374,7 +390,7 @@ extension CreateTrackerViewController: UITableViewDelegate {
             let scheduleViewController = ScheduleViewController(selectedWeekdays: schedule)
             scheduleViewController.delegate = self
             let navigationController = UINavigationController(rootViewController: scheduleViewController)
-            present(navigationController,    animated: true)
+            present(navigationController, animated: true)
         default:
             return
         }
@@ -393,6 +409,14 @@ extension CreateTrackerViewController: ScheduleViewControllerDelegate {
     }
 }
 
+extension CreateTrackerViewController: CategoriesViewControllerDelegate {
+    func didConfirm(_ category: TrackerCategory) {
+        data.category = category
+        parametersTableView.reloadData()
+        dismiss(animated: true)
+    }
+}
+
 extension CreateTrackerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
@@ -402,28 +426,41 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            switch collectionView {
-            case emojisCollection:
-                guard let emojiCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: EmojiCell.identifier,
-                    for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
-                let emoji = emojis[indexPath.row]
-                emojiCell.configure(with: emoji)
-                return emojiCell
-            case colorsCollection:
-                guard let colorCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: ColorCell.identifier,
-                    for: indexPath) as? ColorCell else { return UICollectionViewCell() }
-                let color = colors[indexPath.row]
-                colorCell.configure(with: color)
-                return colorCell
-            default:
-                return UICollectionViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch collectionView {
+        case emojisCollection:
+            guard let emojiCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.identifier, for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
+            let emoji = emojis[indexPath.row]
+            emojiCell.configure(with: emoji)
+            if emoji == data.emoji {
+                emojiCell.select()
+                emojisCollection.selectItem(
+                    at: indexPath,
+                    animated: false,
+                    scrollPosition: .bottom
+                )
             }
+            return emojiCell
+        case colorsCollection:
+            guard let colorCell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.identifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
+            let color = colors[indexPath.row]
+            colorCell.configure(with: color)
+            if
+                let dataColor = data.color,
+                UIColorMarshalling.serialize(color: color) == UIColorMarshalling.serialize(color: dataColor)
+            {
+                colorCell.select()
+                colorsCollection.selectItem(
+                    at: indexPath,
+                    animated: false,
+                    scrollPosition: .bottom
+                )
+            }
+            return colorCell
+        default:
+            return UICollectionViewCell()
         }
+    }
 }
 
 extension CreateTrackerViewController: UICollectionViewDelegate {

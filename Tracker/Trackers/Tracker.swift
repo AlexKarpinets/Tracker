@@ -9,17 +9,24 @@ struct Tracker: Identifiable {
     let isPinned: Bool
     let completedDaysCount: Int
     let schedule: [WeekDay]?
-
-    init(id: UUID = UUID(), label: String, emoji: String, color: UIColor, category: TrackerCategory, isPinned: Bool, completedDaysCount: Int, schedule: [WeekDay]?) {
-         self.id = id
-         self.label = label
-         self.emoji = emoji
-         self.color = color
-         self.category = category
-         self.completedDaysCount = completedDaysCount
-         self.isPinned = isPinned
-         self.schedule = schedule
-     }
+    
+    init(id: UUID = UUID(),
+         label: String,
+         emoji: String,
+         color: UIColor,
+         category: TrackerCategory,
+         isPinned: Bool,
+         completedDaysCount: Int,
+         schedule: [WeekDay]?) {
+        self.id = id
+        self.label = label
+        self.emoji = emoji
+        self.color = color
+        self.category = category
+        self.completedDaysCount = completedDaysCount
+        self.isPinned = isPinned
+        self.schedule = schedule
+    }
     
     init(tracker: Tracker) {
         self.id = tracker.id
@@ -33,7 +40,9 @@ struct Tracker: Identifiable {
     }
     
     init(data: Data) {
-        guard let emoji = data.emoji, let color = data.color, let category = data.category else { fatalError() }
+        guard let emoji = data.emoji,
+                let color = data.color,
+              let category = data.category else { fatalError() }
         
         self.id = UUID()
         self.label = data.label
@@ -46,7 +55,12 @@ struct Tracker: Identifiable {
     }
     
     var data: Data {
-        Data(label: label, emoji: emoji, color: color, category: category, completedDaysCount: completedDaysCount, schedule: schedule)
+        Data(label: label,
+             emoji: emoji,
+             color: color,
+             category: category,
+             completedDaysCount: completedDaysCount,
+             schedule: schedule)
     }
 }
 

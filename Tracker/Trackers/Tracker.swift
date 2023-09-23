@@ -41,7 +41,7 @@ struct Tracker: Identifiable {
     
     init(data: Data) {
         guard let emoji = data.emoji,
-                let color = data.color,
+              let color = data.color,
               let category = data.category else { fatalError() }
         
         self.id = UUID()

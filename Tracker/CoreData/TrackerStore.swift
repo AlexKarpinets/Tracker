@@ -128,7 +128,7 @@ final class TrackerStore: NSObject {
 
 extension TrackerStore {
     enum StoreError: Error {
-        case decodeError, fetchTrackerError, deleteError, pinError
+        case decodeError, fetchTrackerError, deleteError, pinError, updateError
     }
 }
 
@@ -136,7 +136,7 @@ extension TrackerStore: TrackerStoreProtocol {
     private var pinnedTrackers: [Tracker] {
         guard let fetchedObjects = fetchedResultsController.fetchedObjects else { return [] }
         let trackers = fetchedObjects.compactMap { try? makeTracker(from: $0) }
-        return trackers.filter({ $0.isPinned })
+        return trackers.filter{ $0.isPinned }
     }
     
     private var sections: [[Tracker]] {
@@ -149,14 +149,14 @@ extension TrackerStore: TrackerStoreProtocol {
         
         sectionsCoreData.forEach { section in
             var sectionToAdd = [Tracker]()
-            section.objects?.forEach({ object in
+            section.objects?.forEach{ object in
                 guard
                     let trackerCD = object as? TrackerCD,
                     let tracker = try? makeTracker(from: trackerCD),
                     !pinnedTrackers.contains(where: { $0.id == tracker.id })
                 else { return }
                 sectionToAdd.append(tracker)
-            })
+            }
             if !sectionToAdd.isEmpty {
                 sections.append(sectionToAdd)
             }
@@ -203,20 +203,20 @@ extension TrackerStore: TrackerStoreProtocol {
         try context.save()
     }
     
-    func updateTracker(_ tracker: Tracker, with data: Tracker.Data) throws {
+    func updateTracker(_ tracker: Tracker, with data: Tracker.Data) throws { 
         guard
             let emoji = data.emoji,
             let color = data.color,
             let category = data.category
-        else { return }
+        else { throw StoreError.updateError}
         
-        let trackerCD = try getTrackerCD(by: tracker.id)
+        guard let trackerCD = try getTrackerCD(by: tracker.id) else { return }
         let categoryCD = try trackerCategoryStore.categoryCD(with: category.id)
-        trackerCD?.label = data.label
-        trackerCD?.emoji = emoji
-        trackerCD?.colorHEX = UIColorMarshalling.serialize(color: color)
-        trackerCD?.schedule = WeekDay.code(data.schedule)
-        trackerCD?.category = categoryCD
+        trackerCD.label = data.label
+        trackerCD.emoji = emoji
+        trackerCD.colorHEX = UIColorMarshalling.serialize(color: color)
+        trackerCD.schedule = WeekDay.code(data.schedule)
+        trackerCD.category = categoryCD
         try context.save()
     }
     

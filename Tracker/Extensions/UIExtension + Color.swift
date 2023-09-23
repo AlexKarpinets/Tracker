@@ -8,6 +8,14 @@ extension UIColor {
     static var ypBlackDay: UIColor { UIColor(named: "BlackDay") ?? UIColor.black }
     static var ypBlackNight: UIColor { UIColor(named: "BlackNight") ?? UIColor.white }
     static var ypWhiteDay: UIColor { UIColor(named: "WhiteDay") ?? UIColor.white }
+    static var ypBlue: UIColor { UIColor(named: "YP Blue1") ?? UIColor.blue }
+    static var ypWhite: UIColor { UIColor(named: "YP White1") ?? UIColor.white }
+    static var ypGray: UIColor { UIColor(named: "YP Gray1") ?? UIColor.gray }
+    static var ypGrayTwo: UIColor { UIColor(named: "YP GrayTwo1") ?? UIColor.gray }
+    static var ypGrayThree: UIColor { UIColor(named: "YP GrayThree1") ?? UIColor.gray }
+    static var ypBlack: UIColor { UIColor(named: "YP Black1") ?? UIColor.black }
+    static var ypRed: UIColor { UIColor(named: "YP Red1") ?? UIColor.red }
+    static var ypGrayFO: UIColor { UIColor(named: "YP GrayFO1") ?? UIColor.gray }
     
     static func bunchOfSChoices(_ number: Int) -> UIColor? { UIColor(named: "ColorSelection\(number)") }
     static let bunchOfSChoices = [

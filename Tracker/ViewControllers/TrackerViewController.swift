@@ -112,9 +112,9 @@ class TrackerViewController: UIViewController {
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 8
         datePicker.locale = Locale(identifier: NSLocalizedString("TrackerViewController.datePicker", comment: "date"))
-                if #available(iOS 13.0, *) {
-                    datePicker.overrideUserInterfaceStyle = .light
-                }
+        if #available(iOS 13.0, *) {
+            datePicker.overrideUserInterfaceStyle = .light
+        }
         datePicker.maximumDate = Date()
         datePicker.calendar = Calendar(identifier: .iso8601)
         datePicker.addTarget(self, action: #selector(changeDate), for:.valueChanged)
@@ -160,7 +160,10 @@ class TrackerViewController: UIViewController {
         of trackerType: TypeTrackerViewController.TrackerType,
         setAction: CreateTrackerViewController.ActionType
     ) {
-        let createTrackerViewController = CreateTrackerViewController(ActionType: setAction, trackerType: trackerType, data: data)
+        let createTrackerViewController = CreateTrackerViewController(
+            actionType: setAction,
+            trackerType: trackerType,
+            data: data)
         createTrackerViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: createTrackerViewController)
         navigationController.isModalInPresentation = false
@@ -239,21 +242,27 @@ extension TrackerViewController: UICollectionViewDataSource {
         return trackerStore.numberOfSections
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return trackerStore.numberOfRowsInSection(section)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let trackerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell, let tracker = trackerStore.tracker(at: indexPath) else {
-            return UICollectionViewCell()
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int) -> Int {
+            return trackerStore.numberOfRowsInSection(section)
         }
-        
-        let isCompleted = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id }
-        let interaction = UIContextMenuInteraction(delegate: self)
-        trackerCell.configure(with: tracker, days: tracker.completedDaysCount, isCompleted: isCompleted, interaction: interaction)
-        trackerCell.delegate = self
-        return trackerCell
-    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            guard let trackerCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TrackerCell.identifier,
+                for: indexPath) as? TrackerCell, let tracker = trackerStore.tracker(at: indexPath) else {
+                return UICollectionViewCell()
+            }
+            
+            let isCompleted = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id }
+            let interaction = UIContextMenuInteraction(delegate: self)
+            trackerCell.configure(with: tracker, days: tracker.completedDaysCount, isCompleted: isCompleted, interaction: interaction)
+            trackerCell.delegate = self
+            return trackerCell
+        }
 }
 
 extension TrackerViewController: UICollectionViewDelegate {
@@ -272,33 +281,39 @@ extension TrackerViewController: UIContextMenuInteractionDelegate {
         
         return UIContextMenuConfiguration(actionProvider:  { actions in
             UIMenu(children: [
-                UIAction(title: tracker.isPinned ?  NSLocalizedString("TrackerViewController.unPin", comment: "Unpin") : NSLocalizedString("TrackerViewController.pin", comment: "Pin")) { [weak self] _ in
-                    try? self?.trackerStore.togglePin(for: tracker)
-                },
+                UIAction(
+                    title: tracker.isPinned ? NSLocalizedString("TrackerViewController.unPin", comment: "Unpin") : NSLocalizedString("TrackerViewController.pin", comment: "Pin")) { [weak self] _ in
+                        try? self?.trackerStore.togglePin(for: tracker)
+                    },
                 UIAction(title: NSLocalizedString("CategoriesViewController.edit", comment: "Edit")) { [weak self] _ in
                     let type: TypeTrackerViewController.TrackerType = tracker.schedule != nil ? .habit : .irregularEvent
                     self?.editingTracker = tracker
                     self?.presentFormController(with: tracker.data, of: type, setAction: .edit)
                     self?.analyticsService.report(event: .click, params: ["screen": "Main", "item": Items.edit.rawValue])
                 },
-                UIAction(title: NSLocalizedString("CategoriesViewController.delete", comment: "Delete"), attributes: .destructive) { [weak self] _ in
-                    let alert = UIAlertController(
-                        title: nil,
-                        message: NSLocalizedString("TrackerViewController.deleteTracker", comment: "Delete tracker"),
-                        preferredStyle: .actionSheet
-                    )
-                    let cancelAction = UIAlertAction(title: NSLocalizedString("CreateTrackerViewController.cancel", comment: "Cancel"), style: .cancel)
-                    let deleteAction = UIAlertAction(title: NSLocalizedString("CategoriesViewController.delete", comment: "Delete"), style: .destructive) { [weak self] _ in
-                        guard let self else { return }
-                        try? trackerStore.deleteTracker(tracker)
-                        self.analyticsService.report(event: .click, params: ["screen": "Main", "item": Items.delete.rawValue])
-                    }
-                    
-                    alert.addAction(deleteAction)
-                    alert.addAction(cancelAction)
-                    
-                    self?.present(alert, animated: true)
-                }
+                UIAction(title: NSLocalizedString("CategoriesViewController.delete", comment: "Delete"), 
+                         attributes: .destructive) { [weak self] _ in
+                             let alert = UIAlertController(
+                                title: nil,
+                                message: NSLocalizedString("TrackerViewController.deleteTracker", comment: "Delete tracker"),
+                                preferredStyle: .actionSheet
+                             )
+                             let cancelAction = UIAlertAction(
+                                title: NSLocalizedString("CreateTrackerViewController.cancel",
+                                                         comment: "Cancel"), style: .cancel)
+                             let deleteAction = UIAlertAction(
+                                title: NSLocalizedString("CategoriesViewController.delete",
+                                                         comment: "Delete"), style: .destructive) { [weak self] _ in
+                                                             guard let self else { return }
+                                                             try? trackerStore.deleteTracker(tracker)
+                                                             self.analyticsService.report(event: .click, params: ["screen": "Main", "item": Items.delete.rawValue])
+                                                         }
+                             
+                             alert.addAction(deleteAction)
+                             alert.addAction(cancelAction)
+                             
+                             self?.present(alert, animated: true)
+                         }
             ])
         })
     }
@@ -350,23 +365,25 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         return view
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(
-            collectionView,
-            viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
-            at: indexPath
-        )
-        
-        return headerView.systemLayoutSizeFitting(
-            CGSize(
-                width: collectionView.frame.width,
-                height: UIView.layoutFittingExpandedSize.height),
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-    }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int) -> CGSize {
+            let indexPath = IndexPath(row: 0, section: section)
+            let headerView = self.collectionView(
+                collectionView,
+                viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
+                at: indexPath
+            )
+            
+            return headerView.systemLayoutSizeFitting(
+                CGSize(
+                    width: collectionView.frame.width,
+                    height: UIView.layoutFittingExpandedSize.height),
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+        }
 }
 
 extension TrackerViewController: TypeTrackerViewControllerDelegate {

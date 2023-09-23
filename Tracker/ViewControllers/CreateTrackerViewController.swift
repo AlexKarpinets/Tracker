@@ -152,11 +152,11 @@ final class CreateTrackerViewController: UIViewController {
         cellSpacing: 5)
     
     init(
-        ActionType: CreateTrackerViewController.ActionType,
+        actionType: CreateTrackerViewController.ActionType,
         trackerType: TypeTrackerViewController.TrackerType,
         data: Tracker.Data?
     ) {
-        self.setAction = ActionType
+        self.setAction = actionType
         self.trackerType = trackerType
         self.data = data ?? Tracker.Data()
         super.init(nibName: nil, bundle: nil)
@@ -176,16 +176,6 @@ final class CreateTrackerViewController: UIViewController {
         checkFromValidation()
     }
     
-    @objc
-    private func didChangedLabelTextField(_ sender: UITextField) {
-        guard let text = sender.text else { return }
-        data.label = text
-        if text.count > 38 {
-            isValidationMessageVisible = true
-        } else {
-            isValidationMessageVisible = false
-        }
-    }
     
     private func setFormFields() {
         textField.text = data.label
@@ -220,19 +210,6 @@ final class CreateTrackerViewController: UIViewController {
         delegate?.didUpdateTracker(with: data)
     }
     
-    @objc
-    private func didTapCancelButton() {
-        delegate?.didTapCancelButton()
-    }
-    
-    @objc
-    private func didTapConfirmButton() {
-        switch setAction {
-        case .add: addTracker()
-        case .edit: editTracker()
-        }
-    }
-    
     private func checkFromValidation() {
         if data.label.count == 0 {
             isConfirmButtonEnabled = false
@@ -261,6 +238,31 @@ final class CreateTrackerViewController: UIViewController {
         button.layer.masksToBounds = true
         return button
     }
+    
+    @objc
+    private func didChangedLabelTextField(_ sender: UITextField) {
+        guard let text = sender.text else { return }
+        data.label = text
+        if text.count > 38 {
+            isValidationMessageVisible = true
+        } else {
+            isValidationMessageVisible = false
+        }
+    }
+    
+    @objc
+    private func didTapCancelButton() {
+        delegate?.didTapCancelButton()
+    }
+    
+    @objc
+    private func didTapConfirmButton() {
+        switch setAction {
+        case .add: addTracker()
+        case .edit: editTracker()
+        }
+    }
+    
 }
 
 private extension CreateTrackerViewController {
@@ -429,7 +431,9 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case emojisCollection:
-            guard let emojiCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.identifier, for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
+            guard let emojiCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmojiCell.identifier,
+                for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
             let emoji = emojis[indexPath.row]
             emojiCell.configure(with: emoji)
             if emoji == data.emoji {
@@ -442,7 +446,9 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
             }
             return emojiCell
         case colorsCollection:
-            guard let colorCell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.identifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
+            guard let colorCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ColorCell.identifier,
+                for: indexPath) as? ColorCell else { return UICollectionViewCell() }
             let color = colors[indexPath.row]
             colorCell.configure(with: color)
             if
@@ -464,20 +470,24 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
 }
 
 extension CreateTrackerViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? SelectionCellProtocol else { return }
-        switch collectionView {
-        case emojisCollection: data.emoji = emojis[indexPath.row]
-        case colorsCollection: data.color = colors[indexPath.row]
-        default: break
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SelectionCellProtocol else { return }
+            switch collectionView {
+            case emojisCollection: data.emoji = emojis[indexPath.row]
+            case colorsCollection: data.color = colors[indexPath.row]
+            default: break
+            }
+            cell.select()
         }
-        cell.select()
-    }
     
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? SelectionCellProtocol else { return }
-        cell.deselect()
-    }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didDeselectItemAt indexPath: IndexPath) {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SelectionCellProtocol else { return }
+            cell.deselect()
+        }
 }
 
 extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {

@@ -1,23 +1,35 @@
 import Foundation
 
 enum WeekDay: String, CaseIterable, Comparable {
-    case monday = "Понедельник"
-    case tuesday = "Вторник"
-    case wednesday = "Среда"
-    case thurshday = "Четверг"
-    case friday = "Пятница"
-    case saturday = "Суббота"
-    case sunday = "Воскресенье"
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
     
     var shortForm: String {
         switch self {
-        case .monday: return "Пн"
-        case .tuesday: return "Вт"
-        case .wednesday: return "Ср"
-        case .thurshday: return "Чт"
-        case .friday: return "Пт"
-        case .saturday: return "Сб"
-        case .sunday: return "Вс"
+        case .monday: return "monday_SHORT".localized
+        case .tuesday: return "tuesday_SHORT".localized
+        case .wednesday: return "wednesday_SHORT".localized
+        case .thursday: return "thursday_SHORT".localized
+        case .friday: return "friday_SHORT".localized
+        case .saturday: return "saturday_SHORT".localized
+        case .sunday: return "sunday_SHORT".localized
+        }
+    }
+    
+    var fullName: String {
+        switch self {
+        case .monday: return "monday".localized
+        case .tuesday: return "tuesday".localized
+        case .wednesday: return "wednesday".localized
+        case .thursday: return "thursday".localized
+        case .friday: return "friday".localized
+        case .saturday: return "saturday".localized
+        case .sunday: return "sunday".localized
         }
     }
     
@@ -55,5 +67,11 @@ extension WeekDay {
             weekdays.append(weekday)
         }
         return weekdays
+    }
+}
+
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
     }
 }

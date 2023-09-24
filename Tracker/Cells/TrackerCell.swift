@@ -1,18 +1,16 @@
 import UIKit
 
 protocol TrackerCellDelegate: AnyObject {
-    func didTapCompleteButton(of cell: TrackerCell, with tracker: Tracker)
-}
-
-enum ImageName {
-    static let done = "checkmark"
-    static let add = "plus"
+    func didTapAddDayButton(of cell: TrackerCell, with tracker: Tracker)
 }
 
 final class TrackerCell: UICollectionViewCell {
+    
     private let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
+        view.layer.borderColor = UIColor(red: 174 / 255, green: 175 / 255, blue: 180 / 255, alpha: 0.3).cgColor
+        view.layer.borderWidth = 1
         return view
     }()
     
@@ -46,7 +44,7 @@ final class TrackerCell: UICollectionViewCell {
     
     private lazy var addDayButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: ImageName.add), for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .ypWhiteDay
         button.layer.cornerRadius = 17
         button.addTarget(self, action: #selector(didTapAddDayButton), for: .touchUpInside)
@@ -58,13 +56,14 @@ final class TrackerCell: UICollectionViewCell {
     private var tracker: Tracker?
     private var days = 0 {
         willSet {
-            daysCountLabel.text = "\(newValue.days())"
+            daysCountLabel.text = String.localizedStringWithFormat(
+                NSLocalizedString("amountOfDays", comment: ""), newValue)
         }
     }
+    private let analyticsService = AnalyticsService()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         configureViews()
         configureConstraints()
     }
@@ -77,7 +76,7 @@ final class TrackerCell: UICollectionViewCell {
         super.prepareForReuse()
         tracker = nil
         days = 0
-        addDayButton.setImage(UIImage(systemName: ImageName.add), for: .normal)
+        addDayButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addDayButton.layer.opacity = 1
     }
     
@@ -94,10 +93,10 @@ final class TrackerCell: UICollectionViewCell {
     
     func switchAddDayButton(to isCompleted: Bool) {
         if isCompleted {
-            addDayButton.setImage(UIImage(systemName: ImageName.done), for: .normal)
+            addDayButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
             addDayButton.layer.opacity = 0.3
         } else {
-            addDayButton.setImage(UIImage(systemName: ImageName.add), for: .normal)
+            addDayButton.setImage(UIImage(systemName: "plus"), for: .normal)
             addDayButton.layer.opacity = 1
         }
     }
@@ -112,14 +111,16 @@ final class TrackerCell: UICollectionViewCell {
     
     @objc
     private func didTapAddDayButton() {
+        analyticsService.report(event: .click, params: ["screen" : "Main", "item" : Items.track.rawValue])
         guard let tracker else { return }
-        delegate?.didTapCompleteButton(of: self, with: tracker)
+        delegate?.didTapAddDayButton(of: self, with: tracker)
     }
 }
 
 private extension TrackerCell {
     func configureViews() {
-        [cardView, iconView, emoji, trackerLabel, daysCountLabel, addDayButton].forEach { contentView.addSubview($0) }
+        [cardView, trackerLabel, daysCountLabel, addDayButton].forEach { contentView.addSubview($0) }
+        [iconView, emoji, trackerLabel].forEach { cardView.addSubview($0) }
         cardView.translatesAutoresizingMaskIntoConstraints = false
         iconView.translatesAutoresizingMaskIntoConstraints = false
         emoji.translatesAutoresizingMaskIntoConstraints = false

@@ -291,7 +291,7 @@ extension TrackerViewController: UIContextMenuInteractionDelegate {
                     self?.presentFormController(with: tracker.data, of: type, setAction: .edit)
                     self?.analyticsService.report(event: .click, params: ["screen": "Main", "item": Items.edit.rawValue])
                 },
-                UIAction(title: NSLocalizedString("CategoriesViewController.delete", comment: "Delete"), 
+                UIAction(title: NSLocalizedString("CategoriesViewController.delete", comment: "Delete"),
                          attributes: .destructive) { [weak self] _ in
                              let alert = UIAlertController(
                                 title: nil,
@@ -438,7 +438,7 @@ extension TrackerViewController: UISearchBarDelegate {
 }
 
 extension TrackerViewController: TrackerCellDelegate {
-    func didTapCompleteButton(of cell: TrackerCell, with tracker: Tracker) {
+    func didTapAddDayButton(of cell: TrackerCell, with tracker: Tracker) {
         if let recordToRemove = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
             try? trackerRecordStore.remove(recordToRemove)
             cell.switchAddDayButton(to: false)

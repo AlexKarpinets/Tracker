@@ -27,6 +27,7 @@
 		FA8975072A7ABFB9001F91D4 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8975062A7ABFB9001F91D4 /* CreateTrackerViewController.swift */; };
 		FA8975092A7ACFBF001F91D4 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8975082A7ACFBF001F91D4 /* ListCell.swift */; };
 		FA89750B2A7AD1E9001F91D4 /* ListOfItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */; };
+		FA9C11DD2AC051250072CCF7 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = FA9C11DB2AC051250072CCF7 /* Localizable.stringsdict */; };
 		FAC415EB2A4C8A86005186FE /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EA2A4C8A86005186FE /* TrackerCell.swift */; };
 		FAC415ED2A4C96B7005186FE /* UICollectionView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */; };
 		FACED67C2A9A015A00A3B47E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */; };
@@ -40,7 +41,6 @@
 		FAD043352A88EDB000B23E15 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAD043332A88EDB000B23E15 /* Model.xcdatamodeld */; };
 		FADC5C902AB98061009BA16F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FADC5C8D2AB98061009BA16F /* InfoPlist.strings */; };
 		FADC5C972AB98083009BA16F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FADC5C942AB98083009BA16F /* Localizable.strings */; };
-		FADC5C9D2AB980B7009BA16F /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = FADC5C9A2AB980B7009BA16F /* Localizable.stringsdict */; };
 		FAE5ED822A52F35C00C4ADE5 /* TypeTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5ED812A52F35C00C4ADE5 /* TypeTrackerViewController.swift */; };
 		FAF003EC2ABADDF800B0948C /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = FAF003EB2ABADDF800B0948C /* InlineSnapshotTesting */; };
 		FAF003EE2ABADDF800B0948C /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = FAF003ED2ABADDF800B0948C /* SnapshotTesting */; };
@@ -94,6 +94,8 @@
 		FA8975062A7ABFB9001F91D4 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
 		FA8975082A7ACFBF001F91D4 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		FA89750A2A7AD1E9001F91D4 /* ListOfItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfItems.swift; sourceTree = "<group>"; };
+		FA9C11DC2AC051250072CCF7 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "en-GB"; path = "en-GB.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
+		FA9C11DE2AC051400072CCF7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		FAC415EA2A4C8A86005186FE /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		FAC415EC2A4C96B7005186FE /* UICollectionView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extension.swift"; sourceTree = "<group>"; };
 		FACED67B2A9A015A00A3B47E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -108,8 +110,6 @@
 		FADC5C8E2AB98061009BA16F /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		FADC5C952AB98083009BA16F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FADC5C982AB98093009BA16F /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		FADC5C9B2AB980B7009BA16F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
-		FADC5C9E2AB980EE009BA16F /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "en-GB"; path = "en-GB.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
 		FADC5C9F2AB9814C009BA16F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FAE5ED812A52F35C00C4ADE5 /* TypeTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTrackerViewController.swift; sourceTree = "<group>"; };
 		FAF565E02A7E832F00B8EAAE /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -229,8 +229,8 @@
 		FA4F664F2AB0C20F006F8FBB /* Localizable */ = {
 			isa = PBXGroup;
 			children = (
+				FA9C11DB2AC051250072CCF7 /* Localizable.stringsdict */,
 				FADC5C8D2AB98061009BA16F /* InfoPlist.strings */,
-				FADC5C9A2AB980B7009BA16F /* Localizable.stringsdict */,
 				FADC5C942AB98083009BA16F /* Localizable.strings */,
 			);
 			path = Localizable;
@@ -366,10 +366,9 @@
 			};
 			buildConfigurationList = FA5EBE042A4207DE00EA3318 /* Build configuration list for PBXProject "Tracker" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = ru;
+			developmentRegion = "en-GB";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				ru,
 				"en-GB",
@@ -404,7 +403,7 @@
 				FA5EBE192A4207DE00EA3318 /* LaunchScreen.storyboard in Resources */,
 				FADC5C902AB98061009BA16F /* InfoPlist.strings in Resources */,
 				FA5EBE162A4207DE00EA3318 /* Assets.xcassets in Resources */,
-				FADC5C9D2AB980B7009BA16F /* Localizable.stringsdict in Resources */,
+				FA9C11DD2AC051250072CCF7 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +526,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		FA9C11DB2AC051250072CCF7 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA9C11DC2AC051250072CCF7 /* en-GB */,
+				FA9C11DE2AC051400072CCF7 /* ru */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
 		FADC5C8D2AB98061009BA16F /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -545,15 +553,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		FADC5C9A2AB980B7009BA16F /* Localizable.stringsdict */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FADC5C9B2AB980B7009BA16F /* ru */,
-				FADC5C9E2AB980EE009BA16F /* en-GB */,
-			);
-			name = Localizable.stringsdict;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -567,7 +566,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexanderkarpinets.TrackerTests;
@@ -590,7 +589,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexanderkarpinets.TrackerTests;

@@ -32,9 +32,6 @@ final class MainTabBarViewController: UITabBarController {
             selectedImage: nil
         )
         
-        trackerVC.title = "Трекеры"
-        statisticVC.title = "Статистика"
-        
         setViewControllers([trackerVC, statisticVC], animated: true)
     }
 }

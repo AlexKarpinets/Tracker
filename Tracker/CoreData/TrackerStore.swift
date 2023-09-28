@@ -8,23 +8,26 @@ protocol TrackerStoreDelegate: AnyObject {
 protocol TrackerStoreProtocol {
     var numberOfTrackers: Int { get }
     var numberOfSections: Int { get }
+    var delegate: TrackerStoreDelegate? { get set}
     func numberOfRowsInSection(_ section: Int) -> Int
     func headerLabelInSection(_ section: Int) -> String?
     func tracker(at indexPath: IndexPath) -> Tracker?
     func addTracker(_ tracker: Tracker, with category: TrackerCategory) throws
+    func updateTracker(_ tracker: Tracker, with data: Tracker.Data) throws
+    func deleteTracker(_ tracker: Tracker) throws
+    func togglePin(for tracker: Tracker) throws
+    func loadFilteredTrackers(date: Date, searchString: String) throws
 }
 
 final class TrackerStore: NSObject {
     
     weak var delegate: TrackerStoreDelegate?
-    
     private let context: NSManagedObjectContext
     private let trackerCategoryStore = TrackerCategoryStore()
-    
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCD> = {
         let fetchRequest = NSFetchRequest<TrackerCD>(entityName: "TrackerCD")
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(keyPath: \TrackerCD.category?.categoryId, ascending: true),
+            NSSortDescriptor(keyPath: \TrackerCD.category?.createdAt, ascending: true),
             NSSortDescriptor(keyPath: \TrackerCD.createdAt, ascending: true)
         ]
         let fetchedResultsController = NSFetchedResultsController(
@@ -55,6 +58,8 @@ final class TrackerStore: NSObject {
             let label = coreData.label,
             let emoji = coreData.emoji,
             let colorHEX = coreData.colorHEX,
+            let categoryCD = coreData.category,
+            let category = try? trackerCategoryStore.makeCategory(from: categoryCD),
             let completedDaysCount = coreData.records
         else { throw StoreError.decodeError }
         let color = UIColorMarshalling.deserialize(hexString: colorHEX)
@@ -65,6 +70,8 @@ final class TrackerStore: NSObject {
             label: label,
             emoji: emoji,
             color: color!,
+            category: category,
+            isPinned: coreData.isPinned,
             completedDaysCount: completedDaysCount.count,
             schedule: schedule
         )
@@ -76,7 +83,10 @@ final class TrackerStore: NSObject {
             #keyPath(TrackerCD.trackerId), id.uuidString
         )
         try fetchedResultsController.performFetch()
-        return fetchedResultsController.fetchedObjects?.first
+        guard let tracker = fetchedResultsController.fetchedObjects?.first else { throw StoreError.fetchTrackerError }
+        fetchedResultsController.fetchRequest.predicate = nil
+        try fetchedResultsController.performFetch()
+        return tracker
     }
     
     func loadFilteredTrackers(date: Date, searchString: String) throws {
@@ -116,39 +126,67 @@ final class TrackerStore: NSObject {
     }
 }
 
-
 extension TrackerStore {
     enum StoreError: Error {
-        case decodeError
+        case decodeError, fetchTrackerError, deleteError, pinError, updateError
     }
 }
 
 extension TrackerStore: TrackerStoreProtocol {
+    private var pinnedTrackers: [Tracker] {
+        guard let fetchedObjects = fetchedResultsController.fetchedObjects else { return [] }
+        let trackers = fetchedObjects.compactMap { try? makeTracker(from: $0) }
+        return trackers.filter{ $0.isPinned }
+    }
+    
+    private var sections: [[Tracker]] {
+        guard let sectionsCoreData = fetchedResultsController.sections else { return [] }
+        var sections: [[Tracker]] = []
+        
+        if !pinnedTrackers.isEmpty {
+            sections.append(pinnedTrackers)
+        }
+        
+        sectionsCoreData.forEach { section in
+            var sectionToAdd = [Tracker]()
+            section.objects?.forEach{ object in
+                guard
+                    let trackerCD = object as? TrackerCD,
+                    let tracker = try? makeTracker(from: trackerCD),
+                    !pinnedTrackers.contains(where: { $0.id == tracker.id })
+                else { return }
+                sectionToAdd.append(tracker)
+            }
+            if !sectionToAdd.isEmpty {
+                sections.append(sectionToAdd)
+            }
+        }
+        return sections
+    }
+    
     var numberOfTrackers: Int {
         fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
     var numberOfSections: Int {
-        fetchedResultsController.sections?.count ?? 0
+        sections.count
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
-        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        sections[section].count
     }
     
     func headerLabelInSection(_ section: Int) -> String? {
-        guard let trackerCD = fetchedResultsController.sections?[section].objects?.first as? TrackerCD else { return nil }
-        return trackerCD.category?.label ?? nil
+        if !pinnedTrackers.isEmpty && section == 0 {
+            return NSLocalizedString("TrackerStore.pin", comment: "Pinned")
+        }
+        guard let category = sections[section].first?.category else { return nil }
+        return category.label
     }
     
     func tracker(at indexPath: IndexPath) -> Tracker? {
-        let trackerCD = fetchedResultsController.object(at: indexPath)
-        do {
-            let tracker = try makeTracker(from: trackerCD)
-            return tracker
-        } catch {
-            return nil
-        }
+        let tracker = sections[indexPath.section][indexPath.item]
+        return tracker
     }
     
     func addTracker(_ tracker: Tracker, with category: TrackerCategory) throws {
@@ -161,6 +199,36 @@ extension TrackerStore: TrackerStoreProtocol {
         trackerCD.colorHEX = UIColorMarshalling.serialize(color: tracker.color)
         trackerCD.schedule = WeekDay.code(tracker.schedule)
         trackerCD.category = categoryCD
+        trackerCD.isPinned = tracker.isPinned
+        try context.save()
+    }
+    
+    func updateTracker(_ tracker: Tracker, with data: Tracker.Data) throws { 
+        guard
+            let emoji = data.emoji,
+            let color = data.color,
+            let category = data.category
+        else { throw StoreError.updateError}
+        
+        guard let trackerCD = try getTrackerCD(by: tracker.id) else { return }
+        let categoryCD = try trackerCategoryStore.categoryCD(with: category.id)
+        trackerCD.label = data.label
+        trackerCD.emoji = emoji
+        trackerCD.colorHEX = UIColorMarshalling.serialize(color: color)
+        trackerCD.schedule = WeekDay.code(data.schedule)
+        trackerCD.category = categoryCD
+        try context.save()
+    }
+    
+    func deleteTracker(_ tracker: Tracker) throws {
+        guard let trackerToDelete = try getTrackerCD(by: tracker.id) else { throw StoreError.deleteError }
+        context.delete(trackerToDelete)
+        try context.save()
+    }
+    
+    func togglePin(for tracker: Tracker) throws {
+        guard let trackerToToggle = try getTrackerCD(by: tracker.id) else { throw StoreError.pinError }
+        trackerToToggle.isPinned.toggle()
         try context.save()
     }
 }
@@ -168,5 +236,11 @@ extension TrackerStore: TrackerStoreProtocol {
 extension TrackerStore: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.didUpdate()
+    }
+}
+
+extension Array {
+    subscript(safe index: Index) -> Element? {
+        indices ~= index ? self[index] : nil
     }
 }

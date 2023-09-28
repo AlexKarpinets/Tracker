@@ -1,0 +1,73 @@
+// TrackersViewController
+"TrackersViewController.title" = "Trackers";
+"TrackersViewController.search" = "Search";
+"TrackersViewController.whatWeWillTrace" = "What will we track?";
+"TrackersViewController.filters" = "Filters";
+"TrackersViewController.nothingFound" = "Nothing found";
+"TrackersViewController.deleteTracker" = "Are you sure to delete the tracker?";
+"TrackersViewController.pin" = "Pin";
+"TrackersViewController.unPin" = "Unpin";
+"TrackersViewController.datePicker" = "en_GB";
+
+// StatisticViewController
+"StatisticViewController.title" = "Statistics";
+"StatisticViewController.nothingToAnalyze" = "Nothing to analyze";
+
+//OnboardingViewController
+"OnboardingViewController.firstPage" = "Track only what you want";
+"OnboardingViewController.secondPage" = "Even if it's not liters of water and yoga";
+"OnboardingViewController.enterButton" = "Here is the technology!";
+
+//SetTrackersViewController
+"SetTrackersViewController.habitButton" = "Habit";
+"SetTrackersViewController.irregularEventButton" = "Irregular event";
+"SetTrackersViewController.parameter1" = "Category";
+"SetTrackersViewController.parameter2" = "Schedule";
+"SetTrackersViewController.didTapHabitButton" = "New habit";
+"SetTrackersViewController.didTapIrregularEventButton" = "New irregular event";
+"SetTrackersViewController.configureViews" = "Creating a tracker";
+
+//TrackerFormViewController
+"TrackerFormViewController.textField" = "Enter tracker name";
+"TrackerFormViewController.validationMessage" = "38 character limit";
+"TrackerFormViewController.cancel" = "Cancel";
+"TrackerFormViewController.confirmButton" = "Create";
+"TrackerFormViewController.scheduleString" = "Every day";
+"TrackerFormViewController.emoji" = "Emoji";
+"TrackerFormViewController.color" = "Color";
+"TrackerFormViewController.editHabit" = "Edit habit";
+
+//ScheduleViewController
+"TrackerFormViewController.ready" = "Done";
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+
+"monday_SHORT" = "Mon";
+"tuesday_SHORT" = "Tues";
+"wednesday_SHORT" = "Wed";
+"thursday_SHORT" = "Thurs";
+"friday_SHORT" = "Fri";
+"saturday_SHORT" = "Sat";
+"sunday_SHORT" = "Sun";
+
+//SetCategoriesViewController
+"SetCategoriesViewController.addButton" = "Add category";
+"SetCategoriesViewController.starCombined" = "habits and events can be \n united in meaning";
+"SetCategoriesViewController.deleteCategory" = "Is this category definitely not needed?";
+"SetCategoriesViewController.delete" = "Delete";
+"SetCategoriesViewController.edit" = "Edit";
+
+//CategoryFormViewController
+"CategoryFormViewController.textField" = "Enter category name";
+"CategoryFormViewController.configureView" = "New category";
+
+//TrackerStore
+"TrackerStore.pin" = "Pinned";
+
+//StatisticViewController
+"StatisticViewController.finishedTrackers" = "Finished trackers";

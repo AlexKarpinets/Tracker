@@ -5,7 +5,7 @@ final class ListCell: UITableViewCell {
     private lazy var listItem = ListOfItems()
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .ypBlack
+        label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 17)
         return label
     }()

@@ -5,11 +5,11 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
     lazy var pages: [UIViewController] = {
         let firstVC = OnboardingPageViewController()
         firstVC.backgroundImage.image = UIImage(named: "OnboardingBlue")
-        firstVC.label.text = "Отслеживайте только то, что хотите"
+        firstVC.label.text = NSLocalizedString("OnboardingViewController.firstVC", comment: "")
         
         let secondVC = OnboardingPageViewController()
         secondVC.backgroundImage.image = UIImage(named: "OnboardingRed")
-        secondVC.label.text = "Даже если это не литры воды и йога"
+        secondVC.label.text = NSLocalizedString("OnboardingViewController.secondVC", comment: "")
         return [firstVC, secondVC]
     }()
     
@@ -26,7 +26,7 @@ class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSo
     private lazy var enterButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .ypBlack
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(NSLocalizedString("OnboardingViewController.enterButton", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
